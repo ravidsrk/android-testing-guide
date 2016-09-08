@@ -2,6 +2,7 @@ package in.ravidsrk.sample;
 
 import android.app.Activity;
 import android.os.Build;
+import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.filters.RequiresDevice;
@@ -9,9 +10,14 @@ import android.support.test.filters.SdkSuppress;
 import android.support.test.filters.SmallTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
+import android.support.test.uiautomator.UiSelector;
 import android.util.Log;
 import android.widget.TextView;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -79,5 +85,39 @@ public class MainActivityTest {
         Log.d("Test Filters", "This is a large test");
         Activity activity = activityTestRule.getActivity();
         assertNotNull("MainActivity is not available", activity);
+    }
+
+    @Test
+    public void testPressBackButton() {
+        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).pressBack();
+    }
+
+    @Test
+    @Ignore
+    public void testUiDevice() throws RemoteException {
+        UiDevice device = UiDevice.getInstance(
+                InstrumentationRegistry.getInstrumentation());
+        if (device.isScreenOn()) {
+            device.setOrientationLeft();
+            device.openNotification();
+        }
+    }
+
+    @Test
+    public void testUiAutomatorAPI() throws UiObjectNotFoundException, InterruptedException {
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+
+        UiSelector editTextSelector = new UiSelector().className("android.widget.EditText").text("this is a test").focusable(true);
+        UiObject editTextWidget = device.findObject(editTextSelector);
+        editTextWidget.setText("this is new text");
+
+        Thread.sleep(2000);
+
+        UiSelector buttonSelector = new UiSelector().className("android.widget.Button").text("Click Me").clickable(true);
+        UiObject buttonWidget = device.findObject(buttonSelector);
+        buttonWidget.click();
+
+        Thread.sleep(2000);
+
     }
 }
