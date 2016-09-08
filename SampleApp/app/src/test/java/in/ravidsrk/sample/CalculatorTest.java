@@ -16,6 +16,16 @@ public class CalculatorTest {
 
     private Calculator calculator;
 
+    @BeforeClass
+    public static void testClassSetup() {
+        System.out.println("Getting test class ready");
+    }
+
+    @AfterClass
+    public static void testClassCleanup() {
+        System.out.println("Done with tests");
+    }
+
     @Before
     public void setup() {
         calculator = new Calculator();
@@ -25,16 +35,6 @@ public class CalculatorTest {
     @After
     public void cleanup() {
         System.out.println("Done with unit test!");
-    }
-
-    @BeforeClass
-    public static void testClassSetup() {
-        System.out.println("Getting test class ready");
-    }
-
-    @AfterClass
-    public static void testClassCleanup() {
-        System.out.println("Done with tests");
     }
 
     @Test

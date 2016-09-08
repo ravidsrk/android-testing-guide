@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void clickMe(View view){
+    public void clickMe(View view) {
         editText.setText("you clicked me!");
     }
 }

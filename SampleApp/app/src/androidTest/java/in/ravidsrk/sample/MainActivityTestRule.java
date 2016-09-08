@@ -10,6 +10,7 @@ public class MainActivityTestRule<A extends Activity> extends ActivityTestRule<A
     public MainActivityTestRule(Class<A> activityClass) {
         super(activityClass);
     }
+
     @Override
     protected Intent getActivityIntent() {
         Log.e("MainActivityTestRule", "Prepare the activity's intent");

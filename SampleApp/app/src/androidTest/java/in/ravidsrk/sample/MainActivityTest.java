@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Build;
 import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.filters.LargeTest;
 import android.support.test.filters.RequiresDevice;
 import android.support.test.filters.SdkSuppress;
@@ -22,6 +23,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.replaceText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasFocus;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -118,6 +126,27 @@ public class MainActivityTest {
         buttonWidget.click();
 
         Thread.sleep(2000);
+    }
 
+    @Test
+    public void testEspresso() {
+        ViewInteraction interaction =
+                onView(allOf(withId(R.id.editText),
+                        withText("this is a test"),
+                        hasFocus()));
+        interaction.perform(replaceText("how about some new text"));
+        ViewInteraction interaction2 =
+                onView(allOf(withId(R.id.editText),
+                        withText("how about some new text")));
+        interaction2.check(matches(hasFocus()));
+    }
+
+    @Test
+    public void testEspressoSimplified() {
+        onView(allOf(withId(R.id.editText),
+                withText("this is a test"),
+                hasFocus())).perform(replaceText("how about some new text"));
+        onView(allOf(withId(R.id.editText),
+                withText("how about some new text"))).check(matches(hasFocus()));
     }
 }

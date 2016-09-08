@@ -15,6 +15,7 @@ public class SampleService extends Service {
         Log.e("SampleService", "Binding SampleService");
         return new LocalBinder();
     }
+
     @Override
     public void onCreate() {
         Log.e("SampleService", "Creating SampleService");
