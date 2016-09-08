@@ -14,11 +14,11 @@ import static org.junit.Assert.*;
  */
 public class CalculatorTest {
 
-    private Calculator sm;
+    private Calculator calculator;
 
     @Before
     public void setup() {
-        sm = new Calculator();
+        calculator = new Calculator();
         System.out.println("Ready for testing!");
     }
 
@@ -39,30 +39,30 @@ public class CalculatorTest {
 
     @Test
     public void testAdd() {
-        sm = new Calculator();
-        int total = sm.add(4, 5);
+        calculator = new Calculator();
+        int total = calculator.add(4, 5);
         assertEquals("Calculator is not adding correctly", 9, total);
     }
 
     @Test
     public void testDiff() {
-        sm = new Calculator();
-        int total = sm.diff(9, 2);
+        calculator = new Calculator();
+        int total = calculator.diff(9, 2);
         assertEquals("Calculator is not subtracting correctly", 7, total);
     }
 
     @Test
     public void testDiv() {
-        sm = new Calculator();
-        double total = sm.div(9, 3);
+        calculator = new Calculator();
+        double total = calculator.div(9, 3);
         assertEquals("Calculator is not dividing correctly", 3.0, total, 0.0);
     }
 
     @Ignore
     @Test(expected = java.lang.ArithmeticException.class)
     public void testDivWithZeroDivisor() {
-        sm = new Calculator();
-        double total = sm.div(9, 0);
+        calculator = new Calculator();
+        double total = calculator.div(9, 0);
         assertEquals("Calculator is not handling division by zero correctly", 0.0, total, 0.0);
     }
 }
