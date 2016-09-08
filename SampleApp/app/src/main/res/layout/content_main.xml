@@ -32,4 +32,18 @@
         android:layout_height="wrap_content"
         android:onClick="clickMe"
         android:text="Click Me" />
+
+    <Button
+        android:id="@+id/buttonAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="buttonClicked"
+        android:text="Add" />
+
+    <Button
+        android:id="@+id/buttonRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="buttonClicked"
+        android:text="Remove" />
 </LinearLayout>

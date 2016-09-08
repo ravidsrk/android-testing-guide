@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Build;
 import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.filters.LargeTest;
 import android.support.test.filters.RequiresDevice;
@@ -16,6 +17,7 @@ import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.junit.Ignore;
@@ -27,6 +29,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasFocus;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -34,6 +37,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
@@ -148,5 +153,25 @@ public class MainActivityTest {
                 hasFocus())).perform(replaceText("how about some new text"));
         onView(allOf(withId(R.id.editText),
                 withText("how about some new text"))).check(matches(hasFocus()));
+    }
+
+    @Test
+    public void testAdd() {
+        Button addButton = mock(Button.class);
+        when(addButton.getId()).thenReturn(R.id.buttonAdd);
+
+        MainActivity activity = activityTestRule.getActivity();
+        activity.buttonClicked(addButton);
+        // assert conditions after add button is pusehd
+    }
+
+    @Test
+    public void testRemove() {
+        Button removeButton = mock(Button.class);
+        when(removeButton.getId()).thenReturn(R.id.buttonRemove);
+
+        MainActivity activity = activityTestRule.getActivity();
+        activity.buttonClicked(removeButton);
+        // assert conditions after add button is pusehd
     }
 }
