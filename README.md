@@ -4,27 +4,28 @@ Complete reference for Android Testing with examples.
 ## Contents
 
 - [Introduction](#introduction)
-    - [Why testing?](#)
-    - [Why unit test?](#)
-    - [Instrumented tests](#)
+    - [Why testing?](#why-testing)
+    - [Why unit test?](#why-unit-test)
+    - [Instrumented tests](#instrumented-tests)
 - [Local Tests](#local-tests)
-    - [JUnit basics](#)
-    - [Beyond JUnit basics](#)
+    - [JUnit basics](#junit-basics)
+    - [Beyond JUnit basics](#beyond-junit-basics)
     - [Local test setup and execution](#)
     - [Adding local tests and failure](#)
     - [Assertions](#)
-    - [Hamcrest](#)
-    - [Rules](#)
-    - [Categories](#)
+    - [Hamcrest](#hamcrest)
+    - [Rules](#rules)
 - [Android](#android)
-    - [Android instrumented tests](#)
-    - [Android test rules](#)
-    - [Test filtering](#)
-    - [Espresso](#)
-    - [Robolectric](#)
-    - [Robotium](#)
-    - [UI testing and UI Automator](#)
-    - [MonkeyRunner](#)
+    - [Android test rules](#android-test-rules)
+        - [Rule to test Android Activity](#rule-to-test-android-activity)
+        - [Rule to test Android Service](#rule-to-test-android-service)
+    - [Android instrumented tests](#android-instrumented-tests)
+    - [Test filtering](#test-filtering)
+    - [Espresso](#espresso)
+    - [Robolectric](#robolectric)
+    - [Robotium](#robotium)
+    - [UI testing and UI Automator](#ui-testing-and-ui-automator)
+    - [MonkeyRunner](#monkeyrunner)
 - [References](#references)
 
 ## Introduction
@@ -54,7 +55,7 @@ A UI Test or Instrumentation Test mocks typical user interactions with your app.
 
 There are other tools that are available for this kind of testing such as Robotium, Appium, Calabash, Robolectric.
 
-## Local
+## Local Tests
 
 ### JUnit basics
 
@@ -199,6 +200,7 @@ public class HamcrestTest {
 ### Rules
 
 ```java
+// CalculatorWithTestName.java
 public class CalculatorWithTestName {
 
     @Rule
