@@ -363,9 +363,53 @@ public void testLargeTest() {
 
 ### Espresso
 ```java
+@Test
+public void testEspresso() {
+    ViewInteraction interaction =
+            onView(allOf(withId(R.id.editText),
+                    withText("this is a test"),
+                    hasFocus()));
+    interaction.perform(replaceText("how about some new text"));
+    ViewInteraction interaction2 =
+            onView(allOf(withId(R.id.editText),
+                    withText("how about some new text")));
+    interaction2.check(matches(hasFocus()));
+}
+
+@Test
+public void testEspressoSimplified() {
+    onView(allOf(withId(R.id.editText),
+            withText("this is a test"),
+            hasFocus())).perform(replaceText("how about some new text"));
+    onView(allOf(withId(R.id.editText),
+            withText("how about some new text"))).check(matches(hasFocus()));
+}
 
 ```
 ### Robolectric
+
+```java
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class)
+public class MainActivityRoboelectricTest {
+
+    private MainActivity activity;
+
+    @Before
+    public void setup() {
+        activity = Robolectric.setupActivity(MainActivity.class);
+    }
+
+    @Test
+    public void clickButton() {
+        Button button = (Button) activity.findViewById(R.id.button);
+        assertNotNull("test button could not be found", button);
+        assertTrue("button does not contain text 'Click Me!'", "Click Me".equals(button.getText()));
+    }
+
+}
+```
+
 ### Robotium
 ### UI testing and UI Automator
 
