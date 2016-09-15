@@ -98,9 +98,12 @@
 <p>Tools that are used to do this testing:</p>
 
 <ul>
-<li>JUnit – normal test assertions.</li>
-<li>Mockito – mocking out other classes that are not under test.</li>
-<li>PowerMock – mocking out static classes such as Android Environment class etc.</li>
+<li>
+<a href="http://junit.org/junit4/">JUnit</a> – normal test assertions.</li>
+<li>
+<a href="http://mockito.org/">Mockito</a> – mocking out other classes that are not under test.</li>
+<li>
+<a href="https://github.com/jayway/powermock">PowerMock</a> – mocking out static classes such as Android Environment class etc.</li>
 </ul>
 
 <h3>
@@ -109,11 +112,13 @@
 <p>A UI Test or Instrumentation Test mocks typical user interactions with your app. Clicking on buttons, typing in text are some of the things UI Tests can complete.</p>
 
 <ul>
-<li>Espresso –  Used for testing within your app, selecting items, making sure something is visible.</li>
-<li>UIAutomator – Used for testing interaction between different apps.</li>
+<li>
+<a href="https://google.github.io/android-testing-support-library/docs/espresso/">Espresso</a> –  Used for testing within your app, selecting items, making sure something is visible.</li>
+<li>
+<a href="https://developer.android.com/training/testing/ui-testing/uiautomator-testing.html">UIAutomator</a> – Used for testing interaction between different apps.</li>
 </ul>
 
-<p>There are other tools that are available for this kind of testing such as Robotium, Appium, Calabash, Robolectric.</p>
+<p>There are other tools that are available for this kind of testing such as <a href="http://robotium.com/">Robotium</a>, <a href="http://appium.io/">Appium</a>, <a href="http://calaba.sh/">Calabash</a>, <a href="http://robolectric.org/">Robolectric</a>.</p>
 
 <h2>
 <a id="local-tests" class="anchor" href="#local-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Local Tests</h2>
@@ -121,8 +126,9 @@
 <h3>
 <a id="junit-basics" class="anchor" href="#junit-basics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JUnit basics</h3>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-c">//Calculator.java</span>
-<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Calculator</span> {
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/main/java/in/ravidsrk/sample/Calculator.java">Calculator.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Calculator</span> {
 
     <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> <span class="pl-v">op1</span>, <span class="pl-k">int</span> <span class="pl-v">op2</span>) {
         <span class="pl-k">return</span> op1 <span class="pl-k">+</span> op2;
@@ -136,10 +142,11 @@
         <span class="pl-c">// if (op2 == 0) return 0;</span>
         <span class="pl-k">return</span> op1 <span class="pl-k">/</span> op2;
     }
-}
+}</pre></div>
 
-<span class="pl-c">// CalculatorTest.java</span>
-<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CalculatorTest</span> {
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/CalculatorTest.java">CalculatorTest.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CalculatorTest</span> {
 
     <span class="pl-k">private</span> <span class="pl-smi">Calculator</span> calculator;
 
@@ -190,6 +197,8 @@
 <h3>
 <a id="beyond-junit-basics" class="anchor" href="#beyond-junit-basics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Beyond JUnit basics</h3>
 
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/CalculatorTest.java#L62">CalculatorTest.java</a></p>
+
 <div class="highlight highlight-source-java"><pre><span class="pl-k">@Ignore</span>
 <span class="pl-k">@Test</span>(<span class="pl-c1">expected</span> <span class="pl-k">=</span> <span class="pl-smi">java.lang<span class="pl-k">.</span>ArithmeticException</span><span class="pl-k">.</span>class)
 <span class="pl-k">public</span> <span class="pl-k">void</span> testDivWithZeroDivisor() {
@@ -209,6 +218,8 @@
 
 <h3>
 <a id="hamcrest" class="anchor" href="#hamcrest" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hamcrest</h3>
+
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/HamcrestTest.java">HamcrestTest.java</a></p>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">HamcrestTest</span> {
 
@@ -265,8 +276,9 @@
 <h3>
 <a id="rules" class="anchor" href="#rules" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rules</h3>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-c">// CalculatorWithTestName.java</span>
-<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CalculatorWithTestName</span> {
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/CalculatorWithTestName.java">CalculatorWithTestName.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CalculatorWithTestName</span> {
 
     <span class="pl-k">@Rule</span>
     <span class="pl-k">public</span> <span class="pl-smi">TestName</span> name <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">TestName</span>();
@@ -295,8 +307,9 @@
 <h4>
 <a id="rule-to-test-android-activity" class="anchor" href="#rule-to-test-android-activity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rule to test Android Activity</h4>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-c">// MainActivityTestRule.java</span>
-<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivityTestRule</span>&lt;A <span class="pl-k">extends</span> <span class="pl-e">Activity</span>&gt; extends <span class="pl-e">ActivityTestRule&lt;<span class="pl-smi">A</span>&gt;</span> {
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTestRule.java">MainActivityTestRule.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivityTestRule</span>&lt;A <span class="pl-k">extends</span> <span class="pl-e">Activity</span>&gt; extends <span class="pl-e">ActivityTestRule&lt;<span class="pl-smi">A</span>&gt;</span> {
 
     <span class="pl-k">public</span> <span class="pl-en">MainActivityTestRule</span>(<span class="pl-k">Class&lt;<span class="pl-smi">A</span>&gt;</span> <span class="pl-v">activityClass</span>) {
         <span class="pl-v">super</span>(activityClass);
@@ -335,8 +348,9 @@
 <h4>
 <a id="rule-to-test-android-service" class="anchor" href="#rule-to-test-android-service" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rule to test Android Service</h4>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-c">// SampleServiceTestRule.java</span>
-<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">SampleServiceTestRule</span> <span class="pl-k">extends</span> <span class="pl-e">ServiceTestRule</span> {
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/SampleServiceTest.java">SampleServiceTestRule.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">SampleServiceTestRule</span> <span class="pl-k">extends</span> <span class="pl-e">ServiceTestRule</span> {
 
     <span class="pl-k">@Override</span>
     <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">startService</span>(<span class="pl-smi">Intent</span> <span class="pl-v">intent</span>) <span class="pl-k">throws</span> <span class="pl-smi">TimeoutException</span> {
@@ -369,8 +383,9 @@
 <h4>
 <a id="testing-android-activity" class="anchor" href="#testing-android-activity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Testing Android Activity</h4>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-c">// MainActivityTest.java</span>
-<span class="pl-k">@RunWith</span>(<span class="pl-smi">AndroidJUnit4</span><span class="pl-k">.</span>class)
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java">MainActivityTest.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">@RunWith</span>(<span class="pl-smi">AndroidJUnit4</span><span class="pl-k">.</span>class)
 <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivityTest</span> {
 
     <span class="pl-k">@Rule</span>
@@ -390,6 +405,8 @@
 
 <h4>
 <a id="testing-android-service" class="anchor" href="#testing-android-service" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Testing Android Service</h4>
+
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/SampleServiceTest.java">SampleServiceTest</a></p>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-k">@RunWith</span>(<span class="pl-smi">AndroidJUnit4</span><span class="pl-k">.</span>class)
 <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">SampleServiceTest</span> {
@@ -414,6 +431,8 @@
 
 <h3>
 <a id="test-filtering" class="anchor" href="#test-filtering" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Test filtering</h3>
+
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java#L61">MainActivityTest.java</a></p>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-k">@Test</span>
 <span class="pl-k">@RequiresDevice</span>
@@ -458,6 +477,8 @@
 <h3>
 <a id="espresso" class="anchor" href="#espresso" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Espresso</h3>
 
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java#L134">MainActivityTest.java</a></p>
+
 <div class="highlight highlight-source-java"><pre><span class="pl-k">@Test</span>
 <span class="pl-k">public</span> <span class="pl-k">void</span> testEspresso() {
     <span class="pl-smi">ViewInteraction</span> interaction <span class="pl-k">=</span>
@@ -484,8 +505,9 @@
 <h3>
 <a id="robolectric" class="anchor" href="#robolectric" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Robolectric</h3>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-c">// MainActivityRoboelectricTest.java</span>
-<span class="pl-k">@RunWith</span>(<span class="pl-smi">RobolectricGradleTestRunner</span><span class="pl-k">.</span>class)
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/MainActivityRoboelectricTest.java">MainActivityRoboelectricTest.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">@RunWith</span>(<span class="pl-smi">RobolectricGradleTestRunner</span><span class="pl-k">.</span>class)
 <span class="pl-k">@Config</span>(<span class="pl-c1">constants</span> <span class="pl-k">=</span> <span class="pl-smi">BuildConfig</span><span class="pl-k">.</span>class)
 <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivityRoboelectricTest</span> {
 
@@ -508,8 +530,9 @@
 <h3>
 <a id="robotium" class="anchor" href="#robotium" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Robotium</h3>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-c">// MainActivityRobotiumTest.java</span>
-<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivityRobotiumTest</span> {
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityRobotiumTest.java">MainActivityRobotiumTest.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivityRobotiumTest</span> {
     <span class="pl-k">private</span> <span class="pl-smi">Solo</span> solo;
 
     <span class="pl-k">@Rule</span>
@@ -535,12 +558,12 @@
     }
 }</pre></div>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-c">// MainActivityRobotiumTestRule.java</span>
-<span class="pl-k">@Beta</span>
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityRobotiumTestRule.java">MainActivityRobotiumTestRule.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">@Beta</span>
 <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivityRobotiumTestRule</span>&lt;T <span class="pl-k">extends</span> <span class="pl-e">Activity</span>&gt; extends <span class="pl-e">UiThreadTestRule</span> {
 
     <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-k">final</span> <span class="pl-smi">String</span> <span class="pl-c1">TAG</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>InstrumentationRule<span class="pl-pds">"</span></span>;
-
     <span class="pl-k">private</span> <span class="pl-k">final</span> <span class="pl-k">Class&lt;<span class="pl-smi">T</span>&gt;</span> mActivityClass;
 
     <span class="pl-k">public</span> <span class="pl-smi">Instrumentation</span> <span class="pl-en">getInstrumentation</span>() {
@@ -548,11 +571,8 @@
     }
 
     <span class="pl-k">private</span> <span class="pl-smi">Instrumentation</span> mInstrumentation;
-
     <span class="pl-k">private</span> <span class="pl-k">boolean</span> mInitialTouchMode <span class="pl-k">=</span> <span class="pl-c1">false</span>;
-
     <span class="pl-k">private</span> <span class="pl-k">boolean</span> mLaunchActivity <span class="pl-k">=</span> <span class="pl-c1">false</span>;
-
     <span class="pl-k">private</span> <span class="pl-smi">T</span> mActivity;
 
     <span class="pl-c">/**</span>
@@ -766,7 +786,14 @@
 <h3>
 <a id="ui-testing-and-ui-automator" class="anchor" href="#ui-testing-and-ui-automator" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>UI testing and UI Automator</h3>
 
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java#L101">MainActivityTest</a></p>
+
 <div class="highlight highlight-source-java"><pre><span class="pl-k">@Test</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> testPressBackButton() {
+    <span class="pl-smi">UiDevice</span><span class="pl-k">.</span>getInstance(<span class="pl-smi">InstrumentationRegistry</span><span class="pl-k">.</span>getInstrumentation())<span class="pl-k">.</span>pressBack();
+}
+
+<span class="pl-k">@Test</span>
 <span class="pl-k">@Ignore</span>
 <span class="pl-k">public</span> <span class="pl-k">void</span> testUiDevice() throws <span class="pl-smi">RemoteException</span> {
     <span class="pl-smi">UiDevice</span> device <span class="pl-k">=</span> <span class="pl-smi">UiDevice</span><span class="pl-k">.</span>getInstance(
@@ -797,6 +824,8 @@
 
 <h3>
 <a id="monkeyrunner" class="anchor" href="#monkeyrunner" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MonkeyRunner</h3>
+
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/sampletest.py">sampletest.py</a></p>
 
 <div class="highlight highlight-source-python"><pre><span class="pl-c"># Imports the monkeyrunner modules</span>
 <span class="pl-k">from</span> com.android.monkeyrunner <span class="pl-k">import</span> MonkeyRunner, MonkeyDevice, MonkeyImage
