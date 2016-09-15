@@ -266,54 +266,7 @@ public class MainActivityTestRule<A extends Activity> extends ActivityTestRule<A
 
 #### Rule to test Android Service
 ```java
-@RunWith(AndroidJUnit4.class)
-public class SampleServiceTest {
-
-    @Rule
-    public SampleServiceTestRule myServiceRule = new SampleServiceTestRule();
-
-    @Test
-    public void testService() throws TimeoutException {
-        myServiceRule.startService(new Intent(InstrumentationRegistry.getTargetContext(), SampleService.class));
-    }
-
-    @Test
-    public void testBoundService() throws TimeoutException {
-        IBinder binder = myServiceRule.bindService(
-                new Intent(InstrumentationRegistry.getTargetContext(), SampleService.class));
-        SampleService service = ((SampleService.LocalBinder) binder).getService();
-        // Do work with the service
-        assertNotNull("Bound service is null", service);
-    }
-}
-```
-
-### Android instrumented tests
-#### Testing Android Activity
-```java
-// // MainActivityTest.java
-@RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
-
-    @Rule
-    public MainActivityTestRule<MainActivity> mainActivityActivityTestRule = new MainActivityTestRule<MainActivity>(MainActivity.class);
-
-    @Test
-    public void testUI() {
-        Activity activity = mainActivityActivityTestRule.getActivity();
-        assertNotNull(activity.findViewById(R.id.text_hello));
-        TextView helloView = (TextView) activity.findViewById(R.id.text_hello);
-        assertTrue(helloView.isShown());
-        assertEquals("Hello World!", helloView.getText());
-        assertEquals(InstrumentationRegistry.getTargetContext().getString(R.string.hello_world), helloView.getText());
-        assertNull(activity.findViewById(android.R.id.button1));
-    }
-}
-```
-
-#### Testing Android Service
-
-```java
+// SampleServiceTestRule.java
 public class SampleServiceTestRule extends ServiceTestRule {
 
     @Override
@@ -342,6 +295,53 @@ public class SampleServiceTestRule extends ServiceTestRule {
 }
 ```
 
+### Android instrumented tests
+#### Testing Android Activity
+```java
+// MainActivityTest.java
+@RunWith(AndroidJUnit4.class)
+public class MainActivityTest {
+
+    @Rule
+    public MainActivityTestRule<MainActivity> mainActivityActivityTestRule = new MainActivityTestRule<MainActivity>(MainActivity.class);
+
+    @Test
+    public void testUI() {
+        Activity activity = mainActivityActivityTestRule.getActivity();
+        assertNotNull(activity.findViewById(R.id.text_hello));
+        TextView helloView = (TextView) activity.findViewById(R.id.text_hello);
+        assertTrue(helloView.isShown());
+        assertEquals("Hello World!", helloView.getText());
+        assertEquals(InstrumentationRegistry.getTargetContext().getString(R.string.hello_world), helloView.getText());
+        assertNull(activity.findViewById(android.R.id.button1));
+    }
+}
+```
+
+#### Testing Android Service
+
+```java
+@RunWith(AndroidJUnit4.class)
+public class SampleServiceTest {
+
+    @Rule
+    public SampleServiceTestRule myServiceRule = new SampleServiceTestRule();
+
+    @Test
+    public void testService() throws TimeoutException {
+        myServiceRule.startService(new Intent(InstrumentationRegistry.getTargetContext(), SampleService.class));
+    }
+
+    @Test
+    public void testBoundService() throws TimeoutException {
+        IBinder binder = myServiceRule.bindService(
+                new Intent(InstrumentationRegistry.getTargetContext(), SampleService.class));
+        SampleService service = ((SampleService.LocalBinder) binder).getService();
+        // Do work with the service
+        assertNotNull("Bound service is null", service);
+    }
+}
+```
 
 ### Test filtering
 ```java
