@@ -179,10 +179,93 @@ public class HamcrestTest {
 ```
 
 ### Rules
+
+```java
+public class CalculatorWithTestName {
+
+    @Rule
+    public TestName name = new TestName();
+
+    @Test
+    public void testAdd() {
+        Calculator calculator = new Calculator();
+        int total = calculator.add(4, 5);
+        assertEquals(name.getMethodName() + " adding incorrectly", 9, total);
+    }
+
+    @Test
+    public void testDiff() {
+        Calculator calculator = new Calculator();
+        int total = calculator.diff(12, 7);
+        assertEquals(name.getMethodName() + " subtracting incorrectly", 5, total);
+    }
+}
+```
+
 ### Categories
 
 ## Android
 ### Android instrumented tests
+
+```java
+public class MainActivityTestRule<A extends Activity> extends ActivityTestRule<A> {
+
+    public MainActivityTestRule(Class<A> activityClass) {
+        super(activityClass);
+    }
+    @Override
+    protected Intent getActivityIntent() {
+        Log.e("MainActivityTestRule", "Prepare the activity's intent");
+        return super.getActivityIntent();
+    }
+
+    @Override
+    protected void beforeActivityLaunched() {
+        Log.e("MainActivityTestRule", "Execute before the activity is launched");
+        super.beforeActivityLaunched();
+    }
+
+    @Override
+    protected void afterActivityLaunched() {
+        Log.e("MainActivityTestRule", "Execute after the activity has been launched");
+        super.afterActivityLaunched();
+    }
+
+    @Override
+    protected void afterActivityFinished() {
+        Log.e("MainActivityTestRule", "Cleanup after it has finished");
+        super.afterActivityFinished();
+    }
+
+    @Override
+    public A launchActivity(Intent startIntent) {
+        Log.e("MainActivityTestRule", "Launching the activity");
+        return super.launchActivity(startIntent);
+    }
+}
+```
+
+```java
+
+@RunWith(AndroidJUnit4.class)
+public class MainActivityTest {
+
+    @Rule
+    public MainActivityTestRule<MainActivity> mainActivityActivityTestRule = new MainActivityTestRule<MainActivity>(MainActivity.class);
+
+    @Test
+    public void testUI() {
+        Activity activity = mainActivityActivityTestRule.getActivity();
+        assertNotNull(activity.findViewById(R.id.text_hello));
+        TextView helloView = (TextView) activity.findViewById(R.id.text_hello);
+        assertTrue(helloView.isShown());
+        assertEquals("Hello World!", helloView.getText());
+        assertEquals(InstrumentationRegistry.getTargetContext().getString(R.string.hello_world), helloView.getText());
+        assertNull(activity.findViewById(android.R.id.button1));
+    }
+}
+```
+
 ### Android test rules
 ### Test filtering
 ### Espresso
