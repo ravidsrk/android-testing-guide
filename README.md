@@ -779,6 +779,7 @@ emulator.press('KEYCODE_HOME','DOWN_AND_UP')
 ```
 
 ## References
+* <https://riggaroo.co.za/introduction-automated-android-testing/>
 * <http://robolectric.org>
 * <https://github.com/robolectric/robolectric>
 * <https://www.bignerdranch.com/blog/triumph-android-studio-1-2-sneaks-in-full-testing-support>
