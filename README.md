@@ -59,8 +59,9 @@ There are other tools that are available for this kind of testing such as [Robot
 
 ### JUnit basics
 
+[Calculator.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/main/java/in/ravidsrk/sample/Calculator.java)
+
 ```java
-// [Calculator.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/main/java/in/ravidsrk/sample/Calculator.java)
 public class Calculator {
 
     public int add(int op1, int op2) {
@@ -76,8 +77,10 @@ public class Calculator {
         return op1 / op2;
     }
 }
+```
 
-// [CalculatorTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/CalculatorTest.java)
+[CalculatorTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/CalculatorTest.java)
+```java
 public class CalculatorTest {
 
     private Calculator calculator;
@@ -129,8 +132,9 @@ public class CalculatorTest {
 
 ### Beyond JUnit basics
 
+[CalculatorTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/CalculatorTest.java#L62)
+
 ```java
-// [CalculatorTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/CalculatorTest.java#L62)
 @Ignore
 @Test(expected = java.lang.ArithmeticException.class)
 public void testDivWithZeroDivisor() {
@@ -144,8 +148,9 @@ public void testDivWithZeroDivisor() {
 ### Assertions
 ### Hamcrest
 
+[HamcrestTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/HamcrestTest.java)
+
 ```java
-// [HamcrestTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/HamcrestTest.java)
 public class HamcrestTest {
 
     @Test
@@ -201,8 +206,9 @@ public class HamcrestTest {
 
 ### Rules
 
+[CalculatorWithTestName.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/CalculatorWithTestName.java)
+
 ```java
-// [CalculatorWithTestName.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/CalculatorWithTestName.java)
 public class CalculatorWithTestName {
 
     @Rule
@@ -229,8 +235,10 @@ public class CalculatorWithTestName {
 ### Android test rules
 
 #### Rule to test Android Activity
+
+[MainActivityTestRule.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTestRule.java)
+
 ```java
-// MainActivityTestRule.java
 public class MainActivityTestRule<A extends Activity> extends ActivityTestRule<A> {
 
     public MainActivityTestRule(Class<A> activityClass) {
@@ -269,8 +277,10 @@ public class MainActivityTestRule<A extends Activity> extends ActivityTestRule<A
 ```
 
 #### Rule to test Android Service
+
+[SampleServiceTestRule.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/SampleServiceTest.java)
+
 ```java
-// SampleServiceTestRule.java
 public class SampleServiceTestRule extends ServiceTestRule {
 
     @Override
@@ -301,8 +311,10 @@ public class SampleServiceTestRule extends ServiceTestRule {
 
 ### Android instrumented tests
 #### Testing Android Activity
+
+[MainActivityTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java)
+
 ```java
-// [MainActivityTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java)
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
@@ -324,8 +336,9 @@ public class MainActivityTest {
 
 #### Testing Android Service
 
+[SampleServiceTest](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/SampleServiceTest.java)
+
 ```java
-// [SampleServiceTest](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/SampleServiceTest.java)
 @RunWith(AndroidJUnit4.class)
 public class SampleServiceTest {
 
@@ -349,8 +362,10 @@ public class SampleServiceTest {
 ```
 
 ### Test filtering
+
+[MainActivityTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java#L61)
+
 ```java
-// [MainActivityTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java#L61)
 @Test
 @RequiresDevice
 public void testRequiresDevice() {
@@ -393,8 +408,10 @@ public void testLargeTest() {
 ```
 
 ### Espresso
+
+[MainActivityTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java#L134)
+
 ```java
-// [MainActivityTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java#L134)
 @Test
 public void testEspresso() {
     ViewInteraction interaction =
@@ -420,8 +437,9 @@ public void testEspressoSimplified() {
 ```
 ### Robolectric
 
+[MainActivityRoboelectricTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/MainActivityRoboelectricTest.java)
+
 ```java
-// [MainActivityRoboelectricTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/MainActivityRoboelectricTest.java)
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class MainActivityRoboelectricTest {
@@ -445,8 +463,9 @@ public class MainActivityRoboelectricTest {
 
 ### Robotium
 
+[MainActivityRobotiumTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityRobotiumTest.java)
+
 ```java
-// [MainActivityRobotiumTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityRobotiumTest.java)
 public class MainActivityRobotiumTest {
     private Solo solo;
 
@@ -474,13 +493,13 @@ public class MainActivityRobotiumTest {
 }
 ```
 
+[MainActivityRobotiumTestRule.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityRobotiumTestRule.java)
+
 ```java
-// [MainActivityRobotiumTestRule.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityRobotiumTestRule.java)
 @Beta
 public class MainActivityRobotiumTestRule<T extends Activity> extends UiThreadTestRule {
 
     private static final String TAG = "InstrumentationRule";
-
     private final Class<T> mActivityClass;
 
     public Instrumentation getInstrumentation() {
@@ -488,11 +507,8 @@ public class MainActivityRobotiumTestRule<T extends Activity> extends UiThreadTe
     }
 
     private Instrumentation mInstrumentation;
-
     private boolean mInitialTouchMode = false;
-
     private boolean mLaunchActivity = false;
-
     private T mActivity;
 
     /**
@@ -705,9 +721,9 @@ public class MainActivityRobotiumTestRule<T extends Activity> extends UiThreadTe
 ```
 ### UI testing and UI Automator
 
-```java
-// [MainActivityTest](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java#L101)
+[MainActivityTest](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java#L101)
 
+```java
 @Test
 public void testPressBackButton() {
     UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).pressBack();
@@ -744,8 +760,10 @@ public void testUiAutomatorAPI() throws UiObjectNotFoundException, InterruptedEx
 ```
 
 ### MonkeyRunner
+
+[sampletest.py](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/sampletest.py)
+
 ```python
-// [sampletest.py](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/sampletest.py)
 # Imports the monkeyrunner modules
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice, MonkeyImage
 
