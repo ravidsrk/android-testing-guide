@@ -1,5 +1,5 @@
-# android-testing-guide
-Complete reference for Android Testing with examples.
+# android-testing-guide [![Join the chat at https://gitter.im/android-testing-guide/Lobby](https://badges.gitter.im/android-testing-guide/Lobby.svg)](https://gitter.im/android-testing-guide/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+> Complete reference for Android Testing with examples.
 
 ## Contents
 
