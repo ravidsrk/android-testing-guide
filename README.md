@@ -123,6 +123,61 @@ public class CalculatorTest {
 ### Adding local tests and failure
 ### Assertions
 ### Hamcrest
+
+```java
+public class HamcrestTest {
+
+    @Test
+    public void testWithAsserts() {
+        List<String> list = generateStingList();
+        assertTrue(list.contains("android"));
+        assertTrue(list.contains("context"));
+        assertTrue(list.size() > 4);
+        assertTrue(list.size() < 13);
+    }
+
+    @Test
+    public void testWithBigAssert() {
+        List<String> list = generateStingList();
+        assertTrue(list.contains("android") && list.contains("context") && list.size() > 3 && list.size() < 12);
+    }
+
+    @Test
+    public void testWithHamcrest() {
+        List<String> list = generateStingList();
+        assertThat(list, (hasItems("android", "context")));
+        assertThat(list, allOf(hasSize(greaterThan(3)), hasSize(lessThan(12))));
+    }
+
+    @Test
+    public void testFailureWithAsserts() {
+        List<String> list = generateStingList();
+        assertTrue(list.contains("android"));
+        assertTrue(list.contains("service"));
+        assertTrue(list.size() > 3);
+        assertTrue(list.size() < 12);
+    }
+
+    @Test
+    public void testFailureWithHamcrest() {
+        List<String> list = generateStingList();
+        assertThat(list, (hasItems("android", "service")));
+        assertThat(list, allOf(hasSize(greaterThan(3)), hasSize(lessThan(12))));
+    }
+
+    @Test
+    public void testTypeSafety() {
+        // assertThat("123", equalTo(123));
+        // assertThat(123, equalTo("123"));
+    }
+
+    private List<String> generateStingList() {
+        String[] sentence = {"android", "context", "service", "manifest", "layout", "resource", "broadcast", "receiver", "gradle"};
+        return Arrays.asList(sentence);
+    }
+}
+```
+
 ### Rules
 ### Categories
 
