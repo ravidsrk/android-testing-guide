@@ -42,25 +42,25 @@ Complete reference for Android Testing with examples.
 A unit test generally exercises the functionality of the smallest possible unit of code (which could be a method, class, or component) in a repeatable way.
 
 Tools that are used to do this testing:
-* JUnit – normal test assertions.
-* Mockito – mocking out other classes that are not under test.
-* PowerMock – mocking out static classes such as Android Environment class etc.
+* [JUnit](http://junit.org/junit4/) – normal test assertions.
+* [Mockito](http://mockito.org/) – mocking out other classes that are not under test.
+* [PowerMock](https://github.com/jayway/powermock) – mocking out static classes such as Android Environment class etc.
 
 ### Instrumented tests
 
 A UI Test or Instrumentation Test mocks typical user interactions with your app. Clicking on buttons, typing in text are some of the things UI Tests can complete.
 
-* Espresso –  Used for testing within your app, selecting items, making sure something is visible.
-* UIAutomator – Used for testing interaction between different apps.
+* [Espresso](https://google.github.io/android-testing-support-library/docs/espresso/) –  Used for testing within your app, selecting items, making sure something is visible.
+* [UIAutomator](https://developer.android.com/training/testing/ui-testing/uiautomator-testing.html) – Used for testing interaction between different apps.
 
-There are other tools that are available for this kind of testing such as Robotium, Appium, Calabash, Robolectric.
+There are other tools that are available for this kind of testing such as [Robotium](http://robotium.com/), [Appium](http://appium.io/), [Calabash](http://calaba.sh/), [Robolectric](http://robolectric.org/).
 
 ## Local Tests
 
 ### JUnit basics
 
 ```java
-//Calculator.java
+// [Calculator.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/main/java/in/ravidsrk/sample/Calculator.java)
 public class Calculator {
 
     public int add(int op1, int op2) {
@@ -77,7 +77,7 @@ public class Calculator {
     }
 }
 
-// CalculatorTest.java
+// [CalculatorTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/CalculatorTest.java)
 public class CalculatorTest {
 
     private Calculator calculator;
@@ -130,6 +130,7 @@ public class CalculatorTest {
 ### Beyond JUnit basics
 
 ```java
+// [CalculatorTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/CalculatorTest.java#L62)
 @Ignore
 @Test(expected = java.lang.ArithmeticException.class)
 public void testDivWithZeroDivisor() {
@@ -144,6 +145,7 @@ public void testDivWithZeroDivisor() {
 ### Hamcrest
 
 ```java
+// [HamcrestTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/HamcrestTest.java)
 public class HamcrestTest {
 
     @Test
@@ -200,7 +202,7 @@ public class HamcrestTest {
 ### Rules
 
 ```java
-// CalculatorWithTestName.java
+// [CalculatorWithTestName.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/CalculatorWithTestName.java)
 public class CalculatorWithTestName {
 
     @Rule
@@ -300,7 +302,7 @@ public class SampleServiceTestRule extends ServiceTestRule {
 ### Android instrumented tests
 #### Testing Android Activity
 ```java
-// MainActivityTest.java
+// [MainActivityTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java)
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
@@ -323,6 +325,7 @@ public class MainActivityTest {
 #### Testing Android Service
 
 ```java
+// [SampleServiceTest](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/SampleServiceTest.java)
 @RunWith(AndroidJUnit4.class)
 public class SampleServiceTest {
 
@@ -347,6 +350,7 @@ public class SampleServiceTest {
 
 ### Test filtering
 ```java
+// [MainActivityTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java#L61)
 @Test
 @RequiresDevice
 public void testRequiresDevice() {
@@ -390,6 +394,7 @@ public void testLargeTest() {
 
 ### Espresso
 ```java
+// [MainActivityTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java#L134)
 @Test
 public void testEspresso() {
     ViewInteraction interaction =
@@ -416,7 +421,7 @@ public void testEspressoSimplified() {
 ### Robolectric
 
 ```java
-// MainActivityRoboelectricTest.java
+// [MainActivityRoboelectricTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/MainActivityRoboelectricTest.java)
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class MainActivityRoboelectricTest {
@@ -441,7 +446,7 @@ public class MainActivityRoboelectricTest {
 ### Robotium
 
 ```java
-// MainActivityRobotiumTest.java
+// [MainActivityRobotiumTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityRobotiumTest.java)
 public class MainActivityRobotiumTest {
     private Solo solo;
 
@@ -470,7 +475,7 @@ public class MainActivityRobotiumTest {
 ```
 
 ```java
-// MainActivityRobotiumTestRule.java
+// [MainActivityRobotiumTestRule.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityRobotiumTestRule.java)
 @Beta
 public class MainActivityRobotiumTestRule<T extends Activity> extends UiThreadTestRule {
 
@@ -701,6 +706,13 @@ public class MainActivityRobotiumTestRule<T extends Activity> extends UiThreadTe
 ### UI testing and UI Automator
 
 ```java
+// [MainActivityTest](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityTest.java#L101)
+
+@Test
+public void testPressBackButton() {
+    UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).pressBack();
+}
+
 @Test
 @Ignore
 public void testUiDevice() throws RemoteException {
@@ -733,6 +745,7 @@ public void testUiAutomatorAPI() throws UiObjectNotFoundException, InterruptedEx
 
 ### MonkeyRunner
 ```python
+// [sampletest.py](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/sampletest.py)
 # Imports the monkeyrunner modules
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice, MonkeyImage
 
