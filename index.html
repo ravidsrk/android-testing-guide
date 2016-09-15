@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Android-testing-guide by ravidsrk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Android-testing-guide</h1>
+      <h2 class="project-tagline">[Examples] Complete reference for Android Testing with examples.</h2>
+      <a href="https://github.com/ravidsrk/android-testing-guide" class="btn">View on GitHub</a>
+      <a href="https://github.com/ravidsrk/android-testing-guide/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/ravidsrk/android-testing-guide/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="android-testing-guide-" class="anchor" href="#android-testing-guide-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>android-testing-guide <a href="https://gitter.im/android-testing-guide/Lobby?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/android-testing-guide/Lobby.svg" alt="Join the chat at https://gitter.im/android-testing-guide/Lobby"></a>
+</h1>
+
+<blockquote>
+<p>Complete reference for Android Testing with examples.</p>
+</blockquote>
+
+<h2>
+<a id="contents" class="anchor" href="#contents" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contents</h2>
+
+<ul>
+<li>
+<a href="#introduction">Introduction</a>
+
+<ul>
+<li><a href="#why-testing">Why testing?</a></li>
+<li><a href="#why-unit-test">Why unit test?</a></li>
+<li><a href="#instrumented-tests">Instrumented tests</a></li>
+</ul>
+</li>
+<li>
+<a href="#local-tests">Local Tests</a>
+
+<ul>
+<li><a href="#junit-basics">JUnit basics</a></li>
+<li><a href="#beyond-junit-basics">Beyond JUnit basics</a></li>
+<li><a href="#">Local test setup and execution</a></li>
+<li><a href="#">Adding local tests and failure</a></li>
+<li><a href="#">Assertions</a></li>
+<li><a href="#hamcrest">Hamcrest</a></li>
+<li><a href="#rules">Rules</a></li>
+</ul>
+</li>
+<li>
+<a href="#android">Android</a>
+
+<ul>
+<li>
+<a href="#android-test-rules">Android test rules</a>
+
+<ul>
+<li><a href="#rule-to-test-android-activity">Rule to test Android Activity</a></li>
+<li><a href="#rule-to-test-android-service">Rule to test Android Service</a></li>
+</ul>
+</li>
+<li><a href="#android-instrumented-tests">Android instrumented tests</a></li>
+<li><a href="#test-filtering">Test filtering</a></li>
+<li><a href="#espresso">Espresso</a></li>
+<li><a href="#robolectric">Robolectric</a></li>
+<li><a href="#robotium">Robotium</a></li>
+<li><a href="#ui-testing-and-ui-automator">UI testing and UI Automator</a></li>
+<li><a href="#monkeyrunner">MonkeyRunner</a></li>
+</ul>
+</li>
+<li><a href="#references">References</a></li>
+</ul>
+
+<h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
+
+<h3>
+<a id="why-testing" class="anchor" href="#why-testing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why testing?</h3>
+
+<ul>
+<li>Testing forces you to think in a different way and implicitly makes your code cleaner in the process.</li>
+<li>You feel more confident about your code if it has tests.</li>
+<li>Shiny green status bars and cool reports detailing how much of your code is covered are both consequences of writing tests.</li>
+<li>Regression testing is made a lot easier, as automated tests would pick up the bugs first.</li>
+</ul>
+
+<h3>
+<a id="why-unit-test" class="anchor" href="#why-unit-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why unit test?</h3>
+
+<p>A unit test generally exercises the functionality of the smallest possible unit of code (which could be a method, class, or component) in a repeatable way.</p>
+
+<p>Tools that are used to do this testing:</p>
+
+<ul>
+<li>JUnit – normal test assertions.</li>
+<li>Mockito – mocking out other classes that are not under test.</li>
+<li>PowerMock – mocking out static classes such as Android Environment class etc.</li>
+</ul>
+
+<h3>
+<a id="instrumented-tests" class="anchor" href="#instrumented-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Instrumented tests</h3>
+
+<p>A UI Test or Instrumentation Test mocks typical user interactions with your app. Clicking on buttons, typing in text are some of the things UI Tests can complete.</p>
+
+<ul>
+<li>Espresso –  Used for testing within your app, selecting items, making sure something is visible.</li>
+<li>UIAutomator – Used for testing interaction between different apps.</li>
+</ul>
+
+<p>There are other tools that are available for this kind of testing such as Robotium, Appium, Calabash, Robolectric.</p>
+
+<h2>
+<a id="local-tests" class="anchor" href="#local-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Local Tests</h2>
+
+<h3>
+<a id="junit-basics" class="anchor" href="#junit-basics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JUnit basics</h3>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-c">//Calculator.java</span>
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Calculator</span> {
+
+    <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> <span class="pl-v">op1</span>, <span class="pl-k">int</span> <span class="pl-v">op2</span>) {
+        <span class="pl-k">return</span> op1 <span class="pl-k">+</span> op2;
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-en">diff</span>(<span class="pl-k">int</span> <span class="pl-v">op1</span>, <span class="pl-k">int</span> <span class="pl-v">op2</span>) {
+        <span class="pl-k">return</span> op1 <span class="pl-k">-</span> op2;
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">double</span> <span class="pl-en">div</span>(<span class="pl-k">int</span> <span class="pl-v">op1</span>, <span class="pl-k">int</span> <span class="pl-v">op2</span>) {
+        <span class="pl-c">// if (op2 == 0) return 0;</span>
+        <span class="pl-k">return</span> op1 <span class="pl-k">/</span> op2;
+    }
+}
+
+<span class="pl-c">// CalculatorTest.java</span>
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CalculatorTest</span> {
+
+    <span class="pl-k">private</span> <span class="pl-smi">Calculator</span> calculator;
+
+    <span class="pl-k">@Before</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">setup</span>() {
+        calculator <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Calculator</span>();
+        <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(<span class="pl-s"><span class="pl-pds">"</span>Ready for testing!<span class="pl-pds">"</span></span>);
+    }
+
+    <span class="pl-k">@After</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">cleanup</span>() {
+        <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(<span class="pl-s"><span class="pl-pds">"</span>Done with unit test!<span class="pl-pds">"</span></span>);
+    }
+
+    <span class="pl-k">@BeforeClass</span>
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">void</span> <span class="pl-en">testClassSetup</span>() {
+        <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(<span class="pl-s"><span class="pl-pds">"</span>Getting test class ready<span class="pl-pds">"</span></span>);
+    }
+
+    <span class="pl-k">@AfterClass</span>
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">void</span> <span class="pl-en">testClassCleanup</span>() {
+        <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(<span class="pl-s"><span class="pl-pds">"</span>Done with tests<span class="pl-pds">"</span></span>);
+    }
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testAdd</span>() {
+        calculator <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Calculator</span>();
+        <span class="pl-k">int</span> total <span class="pl-k">=</span> calculator<span class="pl-k">.</span>add(<span class="pl-c1">4</span>, <span class="pl-c1">5</span>);
+        assertEquals(<span class="pl-s"><span class="pl-pds">"</span>Calculator is not adding correctly<span class="pl-pds">"</span></span>, <span class="pl-c1">9</span>, total);
+    }
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testDiff</span>() {
+        calculator <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Calculator</span>();
+        <span class="pl-k">int</span> total <span class="pl-k">=</span> calculator<span class="pl-k">.</span>diff(<span class="pl-c1">9</span>, <span class="pl-c1">2</span>);
+        assertEquals(<span class="pl-s"><span class="pl-pds">"</span>Calculator is not subtracting correctly<span class="pl-pds">"</span></span>, <span class="pl-c1">7</span>, total);
+    }
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testDiv</span>() {
+        calculator <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Calculator</span>();
+        <span class="pl-k">double</span> total <span class="pl-k">=</span> calculator<span class="pl-k">.</span>div(<span class="pl-c1">9</span>, <span class="pl-c1">3</span>);
+        assertEquals(<span class="pl-s"><span class="pl-pds">"</span>Calculator is not dividing correctly<span class="pl-pds">"</span></span>, <span class="pl-c1">3.0</span>, total, <span class="pl-c1">0.0</span>);
+    }
+}
+</pre></div>
+
+<h3>
+<a id="beyond-junit-basics" class="anchor" href="#beyond-junit-basics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Beyond JUnit basics</h3>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">@Ignore</span>
+<span class="pl-k">@Test</span>(<span class="pl-c1">expected</span> <span class="pl-k">=</span> <span class="pl-smi">java.lang<span class="pl-k">.</span>ArithmeticException</span><span class="pl-k">.</span>class)
+<span class="pl-k">public</span> <span class="pl-k">void</span> testDivWithZeroDivisor() {
+    calculator <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Calculator</span>();
+    <span class="pl-k">double</span> total <span class="pl-k">=</span> calculator<span class="pl-k">.</span>div(<span class="pl-c1">9</span>, <span class="pl-c1">0</span>);
+    assertEquals(<span class="pl-s"><span class="pl-pds">"</span>Calculator is not handling division by zero correctly<span class="pl-pds">"</span></span>, <span class="pl-c1">0.0</span>, total, <span class="pl-c1">0.0</span>);
+}</pre></div>
+
+<h3>
+<a id="local-test-setup-and-execution" class="anchor" href="#local-test-setup-and-execution" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Local test setup and execution</h3>
+
+<h3>
+<a id="adding-local-tests-and-failure" class="anchor" href="#adding-local-tests-and-failure" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Adding local tests and failure</h3>
+
+<h3>
+<a id="assertions" class="anchor" href="#assertions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Assertions</h3>
+
+<h3>
+<a id="hamcrest" class="anchor" href="#hamcrest" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hamcrest</h3>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">HamcrestTest</span> {
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testWithAsserts</span>() {
+        <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> list <span class="pl-k">=</span> generateStingList();
+        assertTrue(list<span class="pl-k">.</span>contains(<span class="pl-s"><span class="pl-pds">"</span>android<span class="pl-pds">"</span></span>));
+        assertTrue(list<span class="pl-k">.</span>contains(<span class="pl-s"><span class="pl-pds">"</span>context<span class="pl-pds">"</span></span>));
+        assertTrue(list<span class="pl-k">.</span>size() <span class="pl-k">&gt;</span> <span class="pl-c1">4</span>);
+        assertTrue(list<span class="pl-k">.</span>size() <span class="pl-k">&lt;</span> <span class="pl-c1">13</span>);
+    }
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testWithBigAssert</span>() {
+        <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> list <span class="pl-k">=</span> generateStingList();
+        assertTrue(list<span class="pl-k">.</span>contains(<span class="pl-s"><span class="pl-pds">"</span>android<span class="pl-pds">"</span></span>) <span class="pl-k">&amp;&amp;</span> list<span class="pl-k">.</span>contains(<span class="pl-s"><span class="pl-pds">"</span>context<span class="pl-pds">"</span></span>) <span class="pl-k">&amp;&amp;</span> list<span class="pl-k">.</span>size() <span class="pl-k">&gt;</span> <span class="pl-c1">3</span> <span class="pl-k">&amp;&amp;</span> list<span class="pl-k">.</span>size() <span class="pl-k">&lt;</span> <span class="pl-c1">12</span>);
+    }
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testWithHamcrest</span>() {
+        <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> list <span class="pl-k">=</span> generateStingList();
+        assertThat(list, (hasItems(<span class="pl-s"><span class="pl-pds">"</span>android<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>context<span class="pl-pds">"</span></span>)));
+        assertThat(list, allOf(hasSize(greaterThan(<span class="pl-c1">3</span>)), hasSize(lessThan(<span class="pl-c1">12</span>))));
+    }
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testFailureWithAsserts</span>() {
+        <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> list <span class="pl-k">=</span> generateStingList();
+        assertTrue(list<span class="pl-k">.</span>contains(<span class="pl-s"><span class="pl-pds">"</span>android<span class="pl-pds">"</span></span>));
+        assertTrue(list<span class="pl-k">.</span>contains(<span class="pl-s"><span class="pl-pds">"</span>service<span class="pl-pds">"</span></span>));
+        assertTrue(list<span class="pl-k">.</span>size() <span class="pl-k">&gt;</span> <span class="pl-c1">3</span>);
+        assertTrue(list<span class="pl-k">.</span>size() <span class="pl-k">&lt;</span> <span class="pl-c1">12</span>);
+    }
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testFailureWithHamcrest</span>() {
+        <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> list <span class="pl-k">=</span> generateStingList();
+        assertThat(list, (hasItems(<span class="pl-s"><span class="pl-pds">"</span>android<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>service<span class="pl-pds">"</span></span>)));
+        assertThat(list, allOf(hasSize(greaterThan(<span class="pl-c1">3</span>)), hasSize(lessThan(<span class="pl-c1">12</span>))));
+    }
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testTypeSafety</span>() {
+        <span class="pl-c">// assertThat("123", equalTo(123));</span>
+        <span class="pl-c">// assertThat(123, equalTo("123"));</span>
+    }
+
+    <span class="pl-k">private</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> <span class="pl-en">generateStingList</span>() {
+        <span class="pl-k">String</span>[] sentence <span class="pl-k">=</span> {<span class="pl-s"><span class="pl-pds">"</span>android<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>context<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>service<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>manifest<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>layout<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>resource<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>broadcast<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>receiver<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>gradle<span class="pl-pds">"</span></span>};
+        <span class="pl-k">return</span> <span class="pl-smi">Arrays</span><span class="pl-k">.</span>asList(sentence);
+    }
+}</pre></div>
+
+<h3>
+<a id="rules" class="anchor" href="#rules" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rules</h3>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// CalculatorWithTestName.java</span>
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CalculatorWithTestName</span> {
+
+    <span class="pl-k">@Rule</span>
+    <span class="pl-k">public</span> <span class="pl-smi">TestName</span> name <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">TestName</span>();
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testAdd</span>() {
+        <span class="pl-smi">Calculator</span> calculator <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Calculator</span>();
+        <span class="pl-k">int</span> total <span class="pl-k">=</span> calculator<span class="pl-k">.</span>add(<span class="pl-c1">4</span>, <span class="pl-c1">5</span>);
+        assertEquals(name<span class="pl-k">.</span>getMethodName() <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span> adding incorrectly<span class="pl-pds">"</span></span>, <span class="pl-c1">9</span>, total);
+    }
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testDiff</span>() {
+        <span class="pl-smi">Calculator</span> calculator <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Calculator</span>();
+        <span class="pl-k">int</span> total <span class="pl-k">=</span> calculator<span class="pl-k">.</span>diff(<span class="pl-c1">12</span>, <span class="pl-c1">7</span>);
+        assertEquals(name<span class="pl-k">.</span>getMethodName() <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span> subtracting incorrectly<span class="pl-pds">"</span></span>, <span class="pl-c1">5</span>, total);
+    }
+}</pre></div>
+
+<h2>
+<a id="android" class="anchor" href="#android" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Android</h2>
+
+<h3>
+<a id="android-test-rules" class="anchor" href="#android-test-rules" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Android test rules</h3>
+
+<h4>
+<a id="rule-to-test-android-activity" class="anchor" href="#rule-to-test-android-activity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rule to test Android Activity</h4>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// MainActivityTestRule.java</span>
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivityTestRule</span>&lt;A <span class="pl-k">extends</span> <span class="pl-e">Activity</span>&gt; extends <span class="pl-e">ActivityTestRule&lt;<span class="pl-smi">A</span>&gt;</span> {
+
+    <span class="pl-k">public</span> <span class="pl-en">MainActivityTestRule</span>(<span class="pl-k">Class&lt;<span class="pl-smi">A</span>&gt;</span> <span class="pl-v">activityClass</span>) {
+        <span class="pl-v">super</span>(activityClass);
+    }
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">protected</span> <span class="pl-smi">Intent</span> <span class="pl-en">getActivityIntent</span>() {
+        <span class="pl-smi">Log</span><span class="pl-k">.</span>e(<span class="pl-s"><span class="pl-pds">"</span>MainActivityTestRule<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Prepare the activity's intent<span class="pl-pds">"</span></span>);
+        <span class="pl-k">return</span> <span class="pl-v">super</span><span class="pl-k">.</span>getActivityIntent();
+    }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">protected</span> <span class="pl-k">void</span> <span class="pl-en">beforeActivityLaunched</span>() {
+        <span class="pl-smi">Log</span><span class="pl-k">.</span>e(<span class="pl-s"><span class="pl-pds">"</span>MainActivityTestRule<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Execute before the activity is launched<span class="pl-pds">"</span></span>);
+        <span class="pl-v">super</span><span class="pl-k">.</span>beforeActivityLaunched();
+    }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">protected</span> <span class="pl-k">void</span> <span class="pl-en">afterActivityLaunched</span>() {
+        <span class="pl-smi">Log</span><span class="pl-k">.</span>e(<span class="pl-s"><span class="pl-pds">"</span>MainActivityTestRule<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Execute after the activity has been launched<span class="pl-pds">"</span></span>);
+        <span class="pl-v">super</span><span class="pl-k">.</span>afterActivityLaunched();
+    }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">protected</span> <span class="pl-k">void</span> <span class="pl-en">afterActivityFinished</span>() {
+        <span class="pl-smi">Log</span><span class="pl-k">.</span>e(<span class="pl-s"><span class="pl-pds">"</span>MainActivityTestRule<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Cleanup after it has finished<span class="pl-pds">"</span></span>);
+        <span class="pl-v">super</span><span class="pl-k">.</span>afterActivityFinished();
+    }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-smi">A</span> <span class="pl-en">launchActivity</span>(<span class="pl-smi">Intent</span> <span class="pl-v">startIntent</span>) {
+        <span class="pl-smi">Log</span><span class="pl-k">.</span>e(<span class="pl-s"><span class="pl-pds">"</span>MainActivityTestRule<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Launching the activity<span class="pl-pds">"</span></span>);
+        <span class="pl-k">return</span> <span class="pl-v">super</span><span class="pl-k">.</span>launchActivity(startIntent);
+    }
+}</pre></div>
+
+<h4>
+<a id="rule-to-test-android-service" class="anchor" href="#rule-to-test-android-service" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rule to test Android Service</h4>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// SampleServiceTestRule.java</span>
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">SampleServiceTestRule</span> <span class="pl-k">extends</span> <span class="pl-e">ServiceTestRule</span> {
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">startService</span>(<span class="pl-smi">Intent</span> <span class="pl-v">intent</span>) <span class="pl-k">throws</span> <span class="pl-smi">TimeoutException</span> {
+        <span class="pl-smi">Log</span><span class="pl-k">.</span>e(<span class="pl-s"><span class="pl-pds">"</span>SampleServiceTestRule<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>start the service<span class="pl-pds">"</span></span>);
+        <span class="pl-v">super</span><span class="pl-k">.</span>startService(intent);
+    }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-smi">IBinder</span> <span class="pl-en">bindService</span>(<span class="pl-smi">Intent</span> <span class="pl-v">intent</span>) <span class="pl-k">throws</span> <span class="pl-smi">TimeoutException</span> {
+        <span class="pl-smi">Log</span><span class="pl-k">.</span>e(<span class="pl-s"><span class="pl-pds">"</span>SampleServiceTestRule<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>binding the service<span class="pl-pds">"</span></span>);
+        <span class="pl-k">return</span> <span class="pl-v">super</span><span class="pl-k">.</span>bindService(intent);
+    }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">protected</span> <span class="pl-k">void</span> <span class="pl-en">beforeService</span>() {
+        <span class="pl-smi">Log</span><span class="pl-k">.</span>e(<span class="pl-s"><span class="pl-pds">"</span>SampleServiceTestRule<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>work before the service starts<span class="pl-pds">"</span></span>);
+        <span class="pl-v">super</span><span class="pl-k">.</span>beforeService();
+    }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">protected</span> <span class="pl-k">void</span> <span class="pl-en">afterService</span>() {
+        <span class="pl-smi">Log</span><span class="pl-k">.</span>e(<span class="pl-s"><span class="pl-pds">"</span>SampleServiceTestRule<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>work after the service has started<span class="pl-pds">"</span></span>);
+        <span class="pl-v">super</span><span class="pl-k">.</span>afterService();
+    }
+}</pre></div>
+
+<h3>
+<a id="android-instrumented-tests" class="anchor" href="#android-instrumented-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Android instrumented tests</h3>
+
+<h4>
+<a id="testing-android-activity" class="anchor" href="#testing-android-activity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Testing Android Activity</h4>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// MainActivityTest.java</span>
+<span class="pl-k">@RunWith</span>(<span class="pl-smi">AndroidJUnit4</span><span class="pl-k">.</span>class)
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivityTest</span> {
+
+    <span class="pl-k">@Rule</span>
+    <span class="pl-k">public</span> <span class="pl-k">MainActivityTestRule&lt;<span class="pl-smi">MainActivity</span>&gt;</span> mainActivityActivityTestRule <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-k">MainActivityTestRule&lt;<span class="pl-smi">MainActivity</span>&gt;</span>(<span class="pl-smi">MainActivity</span><span class="pl-k">.</span>class);
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testUI</span>() {
+        <span class="pl-smi">Activity</span> activity <span class="pl-k">=</span> mainActivityActivityTestRule<span class="pl-k">.</span>getActivity();
+        assertNotNull(activity<span class="pl-k">.</span>findViewById(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>text_hello));
+        <span class="pl-smi">TextView</span> helloView <span class="pl-k">=</span> (<span class="pl-smi">TextView</span>) activity<span class="pl-k">.</span>findViewById(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>text_hello);
+        assertTrue(helloView<span class="pl-k">.</span>isShown());
+        assertEquals(<span class="pl-s"><span class="pl-pds">"</span>Hello World!<span class="pl-pds">"</span></span>, helloView<span class="pl-k">.</span>getText());
+        assertEquals(<span class="pl-smi">InstrumentationRegistry</span><span class="pl-k">.</span>getTargetContext()<span class="pl-k">.</span>getString(<span class="pl-smi">R</span><span class="pl-k">.</span>string<span class="pl-k">.</span>hello_world), helloView<span class="pl-k">.</span>getText());
+        assertNull(activity<span class="pl-k">.</span>findViewById(<span class="pl-smi">android<span class="pl-k">.</span>R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>button1));
+    }
+}</pre></div>
+
+<h4>
+<a id="testing-android-service" class="anchor" href="#testing-android-service" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Testing Android Service</h4>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">@RunWith</span>(<span class="pl-smi">AndroidJUnit4</span><span class="pl-k">.</span>class)
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">SampleServiceTest</span> {
+
+    <span class="pl-k">@Rule</span>
+    <span class="pl-k">public</span> <span class="pl-smi">SampleServiceTestRule</span> myServiceRule <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">SampleServiceTestRule</span>();
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testService</span>() <span class="pl-k">throws</span> <span class="pl-smi">TimeoutException</span> {
+        myServiceRule<span class="pl-k">.</span>startService(<span class="pl-k">new</span> <span class="pl-smi">Intent</span>(<span class="pl-smi">InstrumentationRegistry</span><span class="pl-k">.</span>getTargetContext(), <span class="pl-smi">SampleService</span><span class="pl-k">.</span>class));
+    }
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testBoundService</span>() <span class="pl-k">throws</span> <span class="pl-smi">TimeoutException</span> {
+        <span class="pl-smi">IBinder</span> binder <span class="pl-k">=</span> myServiceRule<span class="pl-k">.</span>bindService(
+                <span class="pl-k">new</span> <span class="pl-smi">Intent</span>(<span class="pl-smi">InstrumentationRegistry</span><span class="pl-k">.</span>getTargetContext(), <span class="pl-smi">SampleService</span><span class="pl-k">.</span>class));
+        <span class="pl-smi">SampleService</span> service <span class="pl-k">=</span> ((<span class="pl-smi">SampleService</span><span class="pl-k">.</span><span class="pl-smi">LocalBinder</span>) binder)<span class="pl-k">.</span>getService();
+        <span class="pl-c">// Do work with the service</span>
+        assertNotNull(<span class="pl-s"><span class="pl-pds">"</span>Bound service is null<span class="pl-pds">"</span></span>, service);
+    }
+}</pre></div>
+
+<h3>
+<a id="test-filtering" class="anchor" href="#test-filtering" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Test filtering</h3>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">@Test</span>
+<span class="pl-k">@RequiresDevice</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> testRequiresDevice() {
+    <span class="pl-smi">Log</span><span class="pl-k">.</span>d(<span class="pl-s"><span class="pl-pds">"</span>Test Filters<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>This test requires a device<span class="pl-pds">"</span></span>);
+    <span class="pl-smi">Activity</span> activity <span class="pl-k">=</span> activityTestRule<span class="pl-k">.</span>getActivity();
+    assertNotNull(<span class="pl-s"><span class="pl-pds">"</span>MainActivity is not available<span class="pl-pds">"</span></span>, activity);
+}
+
+<span class="pl-k">@Test</span>
+<span class="pl-k">@SdkSuppress</span>(<span class="pl-c1">minSdkVersion</span> <span class="pl-k">=</span> <span class="pl-c1">30</span>)
+<span class="pl-k">public</span> <span class="pl-k">void</span> testMinSdkVersion() {
+    <span class="pl-smi">Log</span><span class="pl-k">.</span>d(<span class="pl-s"><span class="pl-pds">"</span>Test Filters<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Checking for min sdk &gt;= 30<span class="pl-pds">"</span></span>);
+    <span class="pl-smi">Activity</span> activity <span class="pl-k">=</span> activityTestRule<span class="pl-k">.</span>getActivity();
+    assertNotNull(<span class="pl-s"><span class="pl-pds">"</span>MainActivity is not available<span class="pl-pds">"</span></span>, activity);
+}
+
+<span class="pl-k">@Test</span>
+<span class="pl-k">@SdkSuppress</span>(<span class="pl-c1">minSdkVersion</span> <span class="pl-k">=</span> <span class="pl-smi">Build</span><span class="pl-c1"><span class="pl-k">.</span>VERSION_CODES<span class="pl-k">.</span>LOLLIPOP</span>)
+<span class="pl-k">public</span> <span class="pl-k">void</span> testMinBuild() {
+    <span class="pl-smi">Log</span><span class="pl-k">.</span>d(<span class="pl-s"><span class="pl-pds">"</span>Test Filters<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Checking for min build &gt; Lollipop<span class="pl-pds">"</span></span>);
+    <span class="pl-smi">Activity</span> activity <span class="pl-k">=</span> activityTestRule<span class="pl-k">.</span>getActivity();
+    assertNotNull(<span class="pl-s"><span class="pl-pds">"</span>MainActivity is not available<span class="pl-pds">"</span></span>, activity);
+}
+
+<span class="pl-k">@Test</span>
+<span class="pl-k">@SmallTest</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> testSmallTest() {
+    <span class="pl-smi">Log</span><span class="pl-k">.</span>d(<span class="pl-s"><span class="pl-pds">"</span>Test Filters<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>this is a small test<span class="pl-pds">"</span></span>);
+    <span class="pl-smi">Activity</span> activity <span class="pl-k">=</span> activityTestRule<span class="pl-k">.</span>getActivity();
+    assertNotNull(<span class="pl-s"><span class="pl-pds">"</span>MainActivity is not available<span class="pl-pds">"</span></span>, activity);
+}
+
+<span class="pl-k">@Test</span>
+<span class="pl-k">@LargeTest</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> testLargeTest() {
+    <span class="pl-smi">Log</span><span class="pl-k">.</span>d(<span class="pl-s"><span class="pl-pds">"</span>Test Filters<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>This is a large test<span class="pl-pds">"</span></span>);
+    <span class="pl-smi">Activity</span> activity <span class="pl-k">=</span> activityTestRule<span class="pl-k">.</span>getActivity();
+    assertNotNull(<span class="pl-s"><span class="pl-pds">"</span>MainActivity is not available<span class="pl-pds">"</span></span>, activity);
+}</pre></div>
+
+<h3>
+<a id="espresso" class="anchor" href="#espresso" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Espresso</h3>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">@Test</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> testEspresso() {
+    <span class="pl-smi">ViewInteraction</span> interaction <span class="pl-k">=</span>
+            onView(allOf(withId(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>editText),
+                    withText(<span class="pl-s"><span class="pl-pds">"</span>this is a test<span class="pl-pds">"</span></span>),
+                    hasFocus()));
+    interaction<span class="pl-k">.</span>perform(replaceText(<span class="pl-s"><span class="pl-pds">"</span>how about some new text<span class="pl-pds">"</span></span>));
+    <span class="pl-smi">ViewInteraction</span> interaction2 <span class="pl-k">=</span>
+            onView(allOf(withId(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>editText),
+                    withText(<span class="pl-s"><span class="pl-pds">"</span>how about some new text<span class="pl-pds">"</span></span>)));
+    interaction2<span class="pl-k">.</span>check(matches(hasFocus()));
+}
+
+<span class="pl-k">@Test</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> testEspressoSimplified() {
+    onView(allOf(withId(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>editText),
+            withText(<span class="pl-s"><span class="pl-pds">"</span>this is a test<span class="pl-pds">"</span></span>),
+            hasFocus()))<span class="pl-k">.</span>perform(replaceText(<span class="pl-s"><span class="pl-pds">"</span>how about some new text<span class="pl-pds">"</span></span>));
+    onView(allOf(withId(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>editText),
+            withText(<span class="pl-s"><span class="pl-pds">"</span>how about some new text<span class="pl-pds">"</span></span>)))<span class="pl-k">.</span>check(matches(hasFocus()));
+}
+</pre></div>
+
+<h3>
+<a id="robolectric" class="anchor" href="#robolectric" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Robolectric</h3>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// MainActivityRoboelectricTest.java</span>
+<span class="pl-k">@RunWith</span>(<span class="pl-smi">RobolectricGradleTestRunner</span><span class="pl-k">.</span>class)
+<span class="pl-k">@Config</span>(<span class="pl-c1">constants</span> <span class="pl-k">=</span> <span class="pl-smi">BuildConfig</span><span class="pl-k">.</span>class)
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivityRoboelectricTest</span> {
+
+    <span class="pl-k">private</span> <span class="pl-smi">MainActivity</span> activity;
+
+    <span class="pl-k">@Before</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">setup</span>() {
+        activity <span class="pl-k">=</span> <span class="pl-smi">Robolectric</span><span class="pl-k">.</span>setupActivity(<span class="pl-smi">MainActivity</span><span class="pl-k">.</span>class);
+    }
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">clickButton</span>() {
+        <span class="pl-smi">Button</span> button <span class="pl-k">=</span> (<span class="pl-smi">Button</span>) activity<span class="pl-k">.</span>findViewById(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>button);
+        assertNotNull(<span class="pl-s"><span class="pl-pds">"</span>test button could not be found<span class="pl-pds">"</span></span>, button);
+        assertTrue(<span class="pl-s"><span class="pl-pds">"</span>button does not contain text 'Click Me!'<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Click Me<span class="pl-pds">"</span></span><span class="pl-k">.</span>equals(button<span class="pl-k">.</span>getText()));
+    }
+
+}</pre></div>
+
+<h3>
+<a id="robotium" class="anchor" href="#robotium" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Robotium</h3>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// MainActivityRobotiumTest.java</span>
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivityRobotiumTest</span> {
+    <span class="pl-k">private</span> <span class="pl-smi">Solo</span> solo;
+
+    <span class="pl-k">@Rule</span>
+    <span class="pl-k">public</span> <span class="pl-k">MainActivityRobotiumTestRule&lt;<span class="pl-smi">MainActivity</span>&gt;</span> mActivityRule <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-k">MainActivityRobotiumTestRule&lt;&gt;</span>(<span class="pl-smi">MainActivity</span><span class="pl-k">.</span>class);
+
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">setUp</span>() {
+        solo <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Solo</span>(mActivityRule<span class="pl-k">.</span>getInstrumentation(), mActivityRule<span class="pl-k">.</span>getActivity());
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">tearDown</span>() {
+        solo<span class="pl-k">.</span>finishOpenedActivities();
+    }
+
+    <span class="pl-k">@Test</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testPushClickMe</span>() {
+        solo<span class="pl-k">.</span>waitForActivity(<span class="pl-smi">MainActivity</span><span class="pl-k">.</span>class);
+        solo<span class="pl-k">.</span>assertCurrentActivity(<span class="pl-s"><span class="pl-pds">"</span>MainActivity is not displayed<span class="pl-pds">"</span></span>, <span class="pl-smi">MainActivity</span><span class="pl-k">.</span>class);
+        assertTrue(<span class="pl-s"><span class="pl-pds">"</span>This is a test in EditText is not displayed<span class="pl-pds">"</span></span>,
+                solo<span class="pl-k">.</span>searchText(<span class="pl-s"><span class="pl-pds">"</span>this is a test<span class="pl-pds">"</span></span>));
+        solo<span class="pl-k">.</span>clickOnButton(<span class="pl-s"><span class="pl-pds">"</span>Click Me<span class="pl-pds">"</span></span>);
+        assertTrue(<span class="pl-s"><span class="pl-pds">"</span>You clicked me text is not displayed in the EditText<span class="pl-pds">"</span></span>,
+                solo<span class="pl-k">.</span>searchText(<span class="pl-s"><span class="pl-pds">"</span>you clicked me!<span class="pl-pds">"</span></span>));
+    }
+}</pre></div>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// MainActivityRobotiumTestRule.java</span>
+<span class="pl-k">@Beta</span>
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivityRobotiumTestRule</span>&lt;T <span class="pl-k">extends</span> <span class="pl-e">Activity</span>&gt; extends <span class="pl-e">UiThreadTestRule</span> {
+
+    <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-k">final</span> <span class="pl-smi">String</span> <span class="pl-c1">TAG</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>InstrumentationRule<span class="pl-pds">"</span></span>;
+
+    <span class="pl-k">private</span> <span class="pl-k">final</span> <span class="pl-k">Class&lt;<span class="pl-smi">T</span>&gt;</span> mActivityClass;
+
+    <span class="pl-k">public</span> <span class="pl-smi">Instrumentation</span> <span class="pl-en">getInstrumentation</span>() {
+        <span class="pl-k">return</span> mInstrumentation;
+    }
+
+    <span class="pl-k">private</span> <span class="pl-smi">Instrumentation</span> mInstrumentation;
+
+    <span class="pl-k">private</span> <span class="pl-k">boolean</span> mInitialTouchMode <span class="pl-k">=</span> <span class="pl-c1">false</span>;
+
+    <span class="pl-k">private</span> <span class="pl-k">boolean</span> mLaunchActivity <span class="pl-k">=</span> <span class="pl-c1">false</span>;
+
+    <span class="pl-k">private</span> <span class="pl-smi">T</span> mActivity;
+
+    <span class="pl-c">/**</span>
+<span class="pl-c">     * Similar to {@link #MainActivityRobotiumTestRule(Class, boolean, boolean)} but with "touch mode" disabled.</span>
+<span class="pl-c">     *</span>
+<span class="pl-c">     * @param activityClass    The activity under test. This must be a class in the instrumentation</span>
+<span class="pl-c">     *                         targetPackage specified in the AndroidManifest.xml</span>
+<span class="pl-c">     * @see MainActivityRobotiumTestRule#MainActivityRobotiumTestRule(Class, boolean, boolean)</span>
+<span class="pl-c">     */</span>
+    <span class="pl-k">public</span> <span class="pl-en">MainActivityRobotiumTestRule</span>(<span class="pl-k">Class&lt;<span class="pl-smi">T</span>&gt;</span> <span class="pl-v">activityClass</span>) {
+        <span class="pl-v">this</span>(activityClass, <span class="pl-c1">false</span>);
+    }
+
+    <span class="pl-c">/**</span>
+<span class="pl-c">     * Similar to {@link #MainActivityRobotiumTestRule(Class, boolean, boolean)} but defaults to launch the</span>
+<span class="pl-c">     * activity under test once per</span>
+<span class="pl-c">     * &lt;a href="http://junit.org/javadoc/latest/org/junit/Test.html"&gt;&lt;code&gt;Test&lt;/code&gt;&lt;/a&gt; method.</span>
+<span class="pl-c">     * It is launched before the first</span>
+<span class="pl-c">     * &lt;a href="http://junit.sourceforge.net/javadoc/org/junit/Before.html"&gt;&lt;code&gt;Before&lt;/code&gt;&lt;/a&gt;</span>
+<span class="pl-c">     * method, and terminated after the last</span>
+<span class="pl-c">     * &lt;a href="http://junit.sourceforge.net/javadoc/org/junit/After.html"&gt;&lt;code&gt;After&lt;/code&gt;&lt;/a&gt;</span>
+<span class="pl-c">     * method.</span>
+<span class="pl-c">     *</span>
+<span class="pl-c">     * @param activityClass    The activity under test. This must be a class in the instrumentation</span>
+<span class="pl-c">     *                         targetPackage specified in the AndroidManifest.xml</span>
+<span class="pl-c">     * @param initialTouchMode true if the Activity should be placed into "touch mode" when started</span>
+<span class="pl-c">     * @see MainActivityRobotiumTestRule#MainActivityRobotiumTestRule(Class, boolean, boolean)</span>
+<span class="pl-c">     */</span>
+    <span class="pl-k">public</span> <span class="pl-en">MainActivityRobotiumTestRule</span>(<span class="pl-k">Class&lt;<span class="pl-smi">T</span>&gt;</span> <span class="pl-v">activityClass</span>, <span class="pl-k">boolean</span> <span class="pl-v">initialTouchMode</span>) {
+        <span class="pl-v">this</span>(activityClass, initialTouchMode, <span class="pl-c1">true</span>);
+    }
+
+    <span class="pl-c">/**</span>
+<span class="pl-c">     * Creates an {@link MainActivityRobotiumTestRule} for the Activity under test.</span>
+<span class="pl-c">     *</span>
+<span class="pl-c">     * @param activityClass    The activity under test. This must be a class in the instrumentation</span>
+<span class="pl-c">     *                         targetPackage specified in the AndroidManifest.xml</span>
+<span class="pl-c">     * @param initialTouchMode true if the Activity should be placed into "touch mode" when started</span>
+<span class="pl-c">     * @param launchActivity   true if the Activity should be launched once per</span>
+<span class="pl-c">     *                         &lt;a href="http://junit.org/javadoc/latest/org/junit/Test.html"&gt;</span>
+<span class="pl-c">     *                         &lt;code&gt;Test&lt;/code&gt;&lt;/a&gt; method. It will be launched before the first</span>
+<span class="pl-c">     *                         &lt;a href="http://junit.sourceforge.net/javadoc/org/junit/Before.html"&gt;</span>
+<span class="pl-c">     *                         &lt;code&gt;Before&lt;/code&gt;&lt;/a&gt; method, and terminated after the last</span>
+<span class="pl-c">     *                         &lt;a href="http://junit.sourceforge.net/javadoc/org/junit/After.html"&gt;</span>
+<span class="pl-c">     *                         &lt;code&gt;After&lt;/code&gt;&lt;/a&gt; method.</span>
+<span class="pl-c">     */</span>
+    <span class="pl-k">public</span> <span class="pl-en">MainActivityRobotiumTestRule</span>(<span class="pl-k">Class&lt;<span class="pl-smi">T</span>&gt;</span> <span class="pl-v">activityClass</span>, <span class="pl-k">boolean</span> <span class="pl-v">initialTouchMode</span>,
+                              <span class="pl-k">boolean</span> <span class="pl-v">launchActivity</span>) {
+        mActivityClass <span class="pl-k">=</span> activityClass;
+        mInitialTouchMode <span class="pl-k">=</span> initialTouchMode;
+        mLaunchActivity <span class="pl-k">=</span> launchActivity;
+        mInstrumentation <span class="pl-k">=</span> <span class="pl-smi">InstrumentationRegistry</span><span class="pl-k">.</span>getInstrumentation();
+    }
+
+    <span class="pl-c">/**</span>
+<span class="pl-c">     * Override this method to set up Intent as if supplied to</span>
+<span class="pl-c">     * {@link android.content.Context#startActivity}.</span>
+<span class="pl-c">     * &lt;p&gt;</span>
+<span class="pl-c">     * The default Intent (if this method returns null or is not overwritten) is:</span>
+<span class="pl-c">     * action = {@link Intent#ACTION_MAIN}</span>
+<span class="pl-c">     * flags = {@link Intent#FLAG_ACTIVITY_NEW_TASK}</span>
+<span class="pl-c">     * All other intent fields are null or empty.</span>
+<span class="pl-c">     *</span>
+<span class="pl-c">     * @return The Intent as if supplied to {@link android.content.Context#startActivity}.</span>
+<span class="pl-c">     */</span>
+    <span class="pl-k">protected</span> <span class="pl-smi">Intent</span> <span class="pl-en">getActivityIntent</span>() {
+        <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-smi">Intent</span>(<span class="pl-smi">Intent</span><span class="pl-c1"><span class="pl-k">.</span>ACTION_MAIN</span>);
+    }
+
+    <span class="pl-c">/**</span>
+<span class="pl-c">     * Override this method to execute any code that should run before your {@link Activity} is</span>
+<span class="pl-c">     * created and launched.</span>
+<span class="pl-c">     * This method is called before each test method, including any method annotated with</span>
+<span class="pl-c">     * &lt;a href="http://junit.sourceforge.net/javadoc/org/junit/Before.html"&gt;&lt;code&gt;Before&lt;/code&gt;&lt;/a&gt;.</span>
+<span class="pl-c">     */</span>
+    <span class="pl-k">protected</span> <span class="pl-k">void</span> <span class="pl-en">beforeActivityLaunched</span>() {
+        <span class="pl-c">// empty by default</span>
+    }
+
+    <span class="pl-c">/**</span>
+<span class="pl-c">     * Override this method to execute any code that should run after your {@link Activity} is</span>
+<span class="pl-c">     * launched, but before any test code is run including any method annotated with</span>
+<span class="pl-c">     * &lt;a href="http://junit.sourceforge.net/javadoc/org/junit/Before.html"&gt;&lt;code&gt;Before&lt;/code&gt;&lt;/a&gt;.</span>
+<span class="pl-c">     * &lt;p&gt;</span>
+<span class="pl-c">     * Prefer</span>
+<span class="pl-c">     * &lt;a href="http://junit.sourceforge.net/javadoc/org/junit/Before.html"&gt;&lt;code&gt;Before&lt;/code&gt;&lt;/a&gt;</span>
+<span class="pl-c">     * over this method. This method should usually not be overwritten directly in tests and only be</span>
+<span class="pl-c">     * used by subclasses of MainActivityRobotiumTestRule to get notified when the activity is created and</span>
+<span class="pl-c">     * visible but test runs.</span>
+<span class="pl-c">     */</span>
+    <span class="pl-k">protected</span> <span class="pl-k">void</span> <span class="pl-en">afterActivityLaunched</span>() {
+        <span class="pl-c">// empty by default</span>
+    }
+
+    <span class="pl-c">/**</span>
+<span class="pl-c">     * Override this method to execute any code that should run after your {@link Activity} is</span>
+<span class="pl-c">     * finished.</span>
+<span class="pl-c">     * This method is called after each test method, including any method annotated with</span>
+<span class="pl-c">     * &lt;a href="http://junit.sourceforge.net/javadoc/org/junit/After.html"&gt;&lt;code&gt;After&lt;/code&gt;&lt;/a&gt;.</span>
+<span class="pl-c">     */</span>
+    <span class="pl-k">protected</span> <span class="pl-k">void</span> <span class="pl-en">afterActivityFinished</span>() {
+        <span class="pl-c">// empty by default</span>
+    }
+
+    <span class="pl-c">/**</span>
+<span class="pl-c">     * @return The activity under test.</span>
+<span class="pl-c">     */</span>
+    <span class="pl-k">public</span> <span class="pl-smi">T</span> <span class="pl-en">getActivity</span>() {
+        <span class="pl-k">if</span> (mActivity <span class="pl-k">==</span> <span class="pl-c1">null</span>) {
+            <span class="pl-smi">Log</span><span class="pl-k">.</span>w(<span class="pl-c1">TAG</span>, <span class="pl-s"><span class="pl-pds">"</span>Activity wasn't created yet<span class="pl-pds">"</span></span>);
+        }
+        <span class="pl-k">return</span> mActivity;
+    }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-smi">Statement</span> <span class="pl-en">apply</span>(<span class="pl-k">final</span> <span class="pl-smi">Statement</span> <span class="pl-v">base</span>, <span class="pl-smi">Description</span> <span class="pl-v">description</span>) {
+        <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-smi">ActivityStatement</span>(<span class="pl-v">super</span><span class="pl-k">.</span>apply(base, description));
+    }
+
+    <span class="pl-c">/**</span>
+<span class="pl-c">     * Launches the Activity under test.</span>
+<span class="pl-c">     * &lt;p&gt;</span>
+<span class="pl-c">     * Don't call this method directly, unless you explicitly requested not to launch the Activity</span>
+<span class="pl-c">     * manually using the launchActivity flag in</span>
+<span class="pl-c">     * {@link MainActivityRobotiumTestRule#MainActivityRobotiumTestRule(Class, boolean, boolean)}.</span>
+<span class="pl-c">     * &lt;p&gt;</span>
+<span class="pl-c">     * Usage:</span>
+<span class="pl-c">     * &lt;pre&gt;</span>
+<span class="pl-c">     *    &amp;#064;Test</span>
+<span class="pl-c">     *    public void customIntentToStartActivity() {</span>
+<span class="pl-c">     *        Intent intent = new Intent(Intent.ACTION_PICK);</span>
+<span class="pl-c">     *        mActivity = mActivityRule.launchActivity(intent);</span>
+<span class="pl-c">     *    }</span>
+<span class="pl-c">     * &lt;/pre&gt;</span>
+<span class="pl-c">     * @param startIntent The Intent that will be used to start the Activity under test. If</span>
+<span class="pl-c">     *                    {@code startIntent} is null, the Intent returned by</span>
+<span class="pl-c">     *                    {@link MainActivityRobotiumTestRule#getActivityIntent()} is used.</span>
+<span class="pl-c">     * @return the Activity launched by this rule.</span>
+<span class="pl-c">     * @see MainActivityRobotiumTestRule#getActivityIntent()</span>
+<span class="pl-c">     */</span>
+    <span class="pl-k">public</span> <span class="pl-smi">T</span> <span class="pl-en">launchActivity</span>(<span class="pl-k">@Nullable</span> <span class="pl-smi">Intent</span> <span class="pl-v">startIntent</span>) {
+        <span class="pl-c">// set initial touch mode</span>
+        mInstrumentation<span class="pl-k">.</span>setInTouchMode(mInitialTouchMode);
+
+        <span class="pl-k">final</span> <span class="pl-smi">String</span> targetPackage <span class="pl-k">=</span> mInstrumentation<span class="pl-k">.</span>getTargetContext()<span class="pl-k">.</span>getPackageName();
+        <span class="pl-c">// inject custom intent, if provided</span>
+        <span class="pl-k">if</span> (<span class="pl-c1">null</span> <span class="pl-k">==</span> startIntent) {
+            startIntent <span class="pl-k">=</span> getActivityIntent();
+            <span class="pl-k">if</span> (<span class="pl-c1">null</span> <span class="pl-k">==</span> startIntent) {
+                <span class="pl-smi">Log</span><span class="pl-k">.</span>w(<span class="pl-c1">TAG</span>, <span class="pl-s"><span class="pl-pds">"</span>getActivityIntent() returned null using default: <span class="pl-pds">"</span></span> <span class="pl-k">+</span>
+                        <span class="pl-s"><span class="pl-pds">"</span>Intent(Intent.ACTION_MAIN)<span class="pl-pds">"</span></span>);
+                startIntent <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Intent</span>(<span class="pl-smi">Intent</span><span class="pl-c1"><span class="pl-k">.</span>ACTION_MAIN</span>);
+            }
+        }
+        startIntent<span class="pl-k">.</span>setClassName(targetPackage, mActivityClass<span class="pl-k">.</span>getName());
+        startIntent<span class="pl-k">.</span>addFlags(<span class="pl-smi">Intent</span><span class="pl-c1"><span class="pl-k">.</span>FLAG_ACTIVITY_NEW_TASK</span>);
+        <span class="pl-smi">Log</span><span class="pl-k">.</span>d(<span class="pl-c1">TAG</span>, <span class="pl-smi">String</span><span class="pl-k">.</span>format(<span class="pl-s"><span class="pl-pds">"</span>Launching activity %s<span class="pl-pds">"</span></span>,
+                mActivityClass<span class="pl-k">.</span>getName()));
+
+        beforeActivityLaunched();
+        <span class="pl-c">// The following cast is correct because the activity we're creating is of the same type as</span>
+        <span class="pl-c">// the one passed in</span>
+        mActivity <span class="pl-k">=</span> mActivityClass<span class="pl-k">.</span>cast(mInstrumentation<span class="pl-k">.</span>startActivitySync(startIntent));
+
+        mInstrumentation<span class="pl-k">.</span>waitForIdleSync();
+
+        afterActivityLaunched();
+        <span class="pl-k">return</span> mActivity;
+    }
+
+    <span class="pl-c">// Visible for testing</span>
+    <span class="pl-k">void</span> <span class="pl-en">setInstrumentation</span>(<span class="pl-smi">Instrumentation</span> <span class="pl-v">instrumentation</span>) {
+        mInstrumentation <span class="pl-k">=</span> checkNotNull(instrumentation, <span class="pl-s"><span class="pl-pds">"</span>instrumentation cannot be null!<span class="pl-pds">"</span></span>);
+    }
+
+    <span class="pl-k">void</span> <span class="pl-en">finishActivity</span>() {
+        <span class="pl-k">if</span> (mActivity <span class="pl-k">!=</span> <span class="pl-c1">null</span>) {
+            mActivity<span class="pl-k">.</span>finish();
+            mActivity <span class="pl-k">=</span> <span class="pl-c1">null</span>;
+        }
+    }
+
+    <span class="pl-c">/**</span>
+<span class="pl-c">     * &lt;a href="http://junit.org/apidocs/org/junit/runners/model/Statement.html"&gt;</span>
+<span class="pl-c">     * &lt;code&gt;Statement&lt;/code&gt;&lt;/a&gt; that finishes the activity after the test was executed</span>
+<span class="pl-c">     */</span>
+    <span class="pl-k">private</span> <span class="pl-k">class</span> <span class="pl-en">ActivityStatement</span> <span class="pl-k">extends</span> <span class="pl-e">Statement</span> {
+
+        <span class="pl-k">private</span> <span class="pl-k">final</span> <span class="pl-smi">Statement</span> mBase;
+
+        <span class="pl-k">public</span> <span class="pl-en">ActivityStatement</span>(<span class="pl-smi">Statement</span> <span class="pl-v">base</span>) {
+            mBase <span class="pl-k">=</span> base;
+        }
+
+        <span class="pl-k">@Override</span>
+        <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">evaluate</span>() <span class="pl-k">throws</span> <span class="pl-smi">Throwable</span> {
+            <span class="pl-k">try</span> {
+                <span class="pl-k">if</span> (mLaunchActivity) {
+                    mActivity <span class="pl-k">=</span> launchActivity(getActivityIntent());
+                }
+                mBase<span class="pl-k">.</span>evaluate();
+            } <span class="pl-k">finally</span> {
+                finishActivity();
+                afterActivityFinished();
+            }
+        }
+    }
+
+}</pre></div>
+
+<h3>
+<a id="ui-testing-and-ui-automator" class="anchor" href="#ui-testing-and-ui-automator" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>UI testing and UI Automator</h3>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">@Test</span>
+<span class="pl-k">@Ignore</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> testUiDevice() throws <span class="pl-smi">RemoteException</span> {
+    <span class="pl-smi">UiDevice</span> device <span class="pl-k">=</span> <span class="pl-smi">UiDevice</span><span class="pl-k">.</span>getInstance(
+            <span class="pl-smi">InstrumentationRegistry</span><span class="pl-k">.</span>getInstrumentation());
+    <span class="pl-k">if</span> (device<span class="pl-k">.</span>isScreenOn()) {
+        device<span class="pl-k">.</span>setOrientationLeft();
+        device<span class="pl-k">.</span>openNotification();
+    }
+}
+
+<span class="pl-k">@Test</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> testUiAutomatorAPI() throws <span class="pl-smi">UiObjectNotFoundException</span>, <span class="pl-smi">InterruptedException</span> {
+    <span class="pl-smi">UiDevice</span> device <span class="pl-k">=</span> <span class="pl-smi">UiDevice</span><span class="pl-k">.</span>getInstance(<span class="pl-smi">InstrumentationRegistry</span><span class="pl-k">.</span>getInstrumentation());
+
+    <span class="pl-smi">UiSelector</span> editTextSelector <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">UiSelector</span>()<span class="pl-k">.</span>className(<span class="pl-s"><span class="pl-pds">"</span>android.widget.EditText<span class="pl-pds">"</span></span>)<span class="pl-k">.</span>text(<span class="pl-s"><span class="pl-pds">"</span>this is a test<span class="pl-pds">"</span></span>)<span class="pl-k">.</span>focusable(<span class="pl-c1">true</span>);
+    <span class="pl-smi">UiObject</span> editTextWidget <span class="pl-k">=</span> device<span class="pl-k">.</span>findObject(editTextSelector);
+    editTextWidget<span class="pl-k">.</span>setText(<span class="pl-s"><span class="pl-pds">"</span>this is new text<span class="pl-pds">"</span></span>);
+
+    <span class="pl-smi">Thread</span><span class="pl-k">.</span>sleep(<span class="pl-c1">2000</span>);
+
+    <span class="pl-smi">UiSelector</span> buttonSelector <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">UiSelector</span>()<span class="pl-k">.</span>className(<span class="pl-s"><span class="pl-pds">"</span>android.widget.Button<span class="pl-pds">"</span></span>)<span class="pl-k">.</span>text(<span class="pl-s"><span class="pl-pds">"</span>Click Me<span class="pl-pds">"</span></span>)<span class="pl-k">.</span>clickable(<span class="pl-c1">true</span>);
+    <span class="pl-smi">UiObject</span> buttonWidget <span class="pl-k">=</span> device<span class="pl-k">.</span>findObject(buttonSelector);
+    buttonWidget<span class="pl-k">.</span>click();
+
+    <span class="pl-smi">Thread</span><span class="pl-k">.</span>sleep(<span class="pl-c1">2000</span>);
+
+}</pre></div>
+
+<h3>
+<a id="monkeyrunner" class="anchor" href="#monkeyrunner" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MonkeyRunner</h3>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-c"># Imports the monkeyrunner modules</span>
+<span class="pl-k">from</span> com.android.monkeyrunner <span class="pl-k">import</span> MonkeyRunner, MonkeyDevice, MonkeyImage
+
+<span class="pl-c"># Alert the user a MonkeyRunner script is about to execute</span>
+MonkeyRunner.alert(<span class="pl-s"><span class="pl-pds">"</span>Monkeyrunner about to execute<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>Monkeyrunner<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>OK<span class="pl-pds">"</span></span>)
+
+<span class="pl-c"># Connects to the current emulator</span>
+emulator<span class="pl-k">=</span> MonkeyRunner.waitForConnection()
+
+<span class="pl-c"># Install the Android app package and test package</span>
+emulator.installPackage(<span class="pl-s"><span class="pl-pds">'</span>./app/build/outputs/apk/app-debug-unaligned.apk<span class="pl-pds">'</span></span>)
+emulator.installPackage(<span class="pl-s"><span class="pl-pds">'</span>./app/build/outputs/apk/app-debug-androidTest-unaligned.apk<span class="pl-pds">'</span></span>)
+
+<span class="pl-c"># sets a variable with the package's internal name</span>
+package <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>in.ravidsrk.sample<span class="pl-pds">'</span></span>
+
+<span class="pl-c"># sets a variable with the name of an Activity in the package</span>
+activity <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>in.ravidsrk.sample.MainActivity<span class="pl-pds">'</span></span>
+
+<span class="pl-c"># sets the name of the component to start</span>
+runComponent <span class="pl-k">=</span> package <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>/<span class="pl-pds">'</span></span> <span class="pl-k">+</span> activity
+
+<span class="pl-c"># Runs the component</span>
+emulator.startActivity(runComponent)
+
+<span class="pl-c"># wait for the screen to fully come up</span>
+MonkeyRunner.sleep(<span class="pl-c1">2.0</span>)
+
+<span class="pl-c"># Takes a screenshot</span>
+snapshot <span class="pl-k">=</span> emulator.takeSnapshot()
+
+<span class="pl-c"># Writes the screenshot to a file</span>
+snapshot.writeToFile(<span class="pl-s"><span class="pl-pds">'</span>mainactivity.png<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>png<span class="pl-pds">'</span></span>)
+
+<span class="pl-c"># Alert the user a testing is about to be run by MonkeyRunner</span>
+MonkeyRunner.alert(<span class="pl-s"><span class="pl-pds">"</span>Instrumented test about to execute<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>Monkeyrunner<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>OK<span class="pl-pds">"</span></span>)
+
+<span class="pl-c">#kick off the instrumented test</span>
+emulator.shell(<span class="pl-s"><span class="pl-pds">'</span>am instrument -w in.ravidsrk.sample.test/android.support.test.runner.AndroidJUnitRunner<span class="pl-pds">'</span></span>)
+
+<span class="pl-c"># return to the emulator home screen</span>
+emulator.press(<span class="pl-s"><span class="pl-pds">'</span>KEYCODE_HOME<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>DOWN_AND_UP<span class="pl-pds">'</span></span>)
+</pre></div>
+
+<h2>
+<a id="references" class="anchor" href="#references" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>References</h2>
+
+<ul>
+<li><a href="https://riggaroo.co.za/introduction-automated-android-testing/">https://riggaroo.co.za/introduction-automated-android-testing/</a></li>
+<li><a href="http://robolectric.org">http://robolectric.org</a></li>
+<li><a href="https://github.com/robolectric/robolectric">https://github.com/robolectric/robolectric</a></li>
+<li><a href="https://www.bignerdranch.com/blog/triumph-android-studio-1-2-sneaks-in-full-testing-support">https://www.bignerdranch.com/blog/triumph-android-studio-1-2-sneaks-in-full-testing-support</a></li>
+<li><a href="https://github.com/mutexkid/android-studio-robolectric-example">https://github.com/mutexkid/android-studio-robolectric-example</a></li>
+<li><a href="http://blog.nikhaldimann.com/2013/10/10/robolectric-2-2-some-pages-from-the-missing-manual">http://blog.nikhaldimann.com/2013/10/10/robolectric-2-2-some-pages-from-the-missing-manual</a></li>
+<li><a href="https://corner.squareup.com/2013/04/the-resurrection-of-testing-for-android.html">https://corner.squareup.com/2013/04/the-resurrection-of-testing-for-android.html</a></li>
+<li><a href="http://simpleprogrammer.com/2010/07/27/the-best-way-to-unit-test-in-android/">http://simpleprogrammer.com/2010/07/27/the-best-way-to-unit-test-in-android/</a></li>
+<li><a href="https://youtu.be/f7ihSQ44WO0?t=15m11s">https://youtu.be/f7ihSQ44WO0?t=15m11s</a></li>
+<li><a href="https://code.google.com/p/android-test-kit">https://code.google.com/p/android-test-kit</a></li>
+<li><a href="https://developer.android.com/training/testing/ui-testing/espresso-testing.html">https://developer.android.com/training/testing/ui-testing/espresso-testing.html</a></li>
+<li><a href="https://github.com/vgrec/EspressoExamples">https://github.com/vgrec/EspressoExamples</a></li>
+<li><a href="https://github.com/designatednerd/Wino">https://github.com/designatednerd/Wino</a></li>
+<li><a href="http://chiuki.github.io/advanced-android-espresso/#/">http://chiuki.github.io/advanced-android-espresso/#/</a></li>
+<li><a href="http://www.vogella.com/tutorials/AndroidTestingEspresso/article.html">http://www.vogella.com/tutorials/AndroidTestingEspresso/article.html</a></li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/ravidsrk/android-testing-guide">Android-testing-guide</a> is maintained by <a href="https://github.com/ravidsrk">ravidsrk</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
