@@ -20,15 +20,14 @@
 
     <section class="main-content">
       <h1>
-<a id="android-testing-guide-" class="anchor" href="#android-testing-guide-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>android-testing-guide <a href="https://gitter.im/android-testing-guide/Lobby?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/android-testing-guide/Lobby.svg" alt="Join the chat at https://gitter.im/android-testing-guide/Lobby"></a>
+<a id="android-testing-guide-" class="anchor" href="#android-testing-guide-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Android Testing Guide <a href="https://gitter.im/android-testing-guide/Lobby?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/android-testing-guide/Lobby.svg" alt="Join the chat at https://gitter.im/android-testing-guide/Lobby"></a>
 </h1>
 
 <h3>
 <a id="show-some-heart" class="anchor" href="#show-some-heart" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show some <g-emoji alias="heart" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2764.png">❤️</g-emoji>
 </h3>
 
-<p><a href="https://github.com/ravidsrk/android-testing-guide"><img src="https://img.shields.io/github/stars/ravidsrk/android-testing-guide.svg?style=social&amp;label=Star" alt="GitHub stars"></a> <a href="https://github.com/ravidsrk/android-testing-guide/fork"><img src="https://img.shields.io/github/forks/ravidsrk/android-testing-guide.svg?style=social&amp;label=Fork" alt="GitHub forks"></a> <a href="https://github.com/ravidsrk/android-testing-guide"><img src="https://img.shields.io/github/watchers/ravidsrk/android-testing-guide.svg?style=social&amp;label=Watch" alt="GitHub watchers"></a> <a href="https://github.com/ravidsrk/android-testing-guide"><img src="https://img.shields.io/github/followers/ravidsrk.svg?style=social&amp;label=Follow" alt="GitHub followers"></a>
-<a href="https://twitter.com/ravidsrk"><img src="https://img.shields.io/twitter/follow/ravidsrk.svg?style=social" alt="Twitter Follow"></a></p>
+<p><a href="https://github.com/ravidsrk/android-testing-guide"><img src="https://img.shields.io/github/stars/ravidsrk/android-testing-guide.svg?style=social&amp;label=Star" alt="GitHub stars"></a> <a href="https://github.com/ravidsrk/android-testing-guide/fork"><img src="https://img.shields.io/github/forks/ravidsrk/android-testing-guide.svg?style=social&amp;label=Fork" alt="GitHub forks"></a> <a href="https://github.com/ravidsrk/android-testing-guide"><img src="https://img.shields.io/github/watchers/ravidsrk/android-testing-guide.svg?style=social&amp;label=Watch" alt="GitHub watchers"></a> <a href="https://github.com/ravidsrk/android-testing-guide"><img src="https://img.shields.io/github/followers/ravidsrk.svg?style=social&amp;label=Follow" alt="GitHub followers"></a> <a href="https://twitter.com/ravidsrk"><img src="https://img.shields.io/twitter/follow/ravidsrk.svg?style=social" alt="Twitter Follow"></a></p>
 
 <blockquote>
 <p>Complete reference for Android Testing with examples.</p>
@@ -469,12 +468,12 @@
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">RESTMockServer</span><span class="pl-k">.</span>whenGET(pathContains(<span class="pl-s"><span class="pl-pds">"</span>users/defunkt<span class="pl-pds">"</span></span>))<span class="pl-k">.</span>thenReturn(<span class="pl-k">new</span> <span class="pl-smi">MockResponse</span>()<span class="pl-k">.</span>setBody(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>)<span class="pl-k">.</span>setResponseCode(<span class="pl-c1">401</span>)<span class="pl-k">.</span>addHeader(<span class="pl-s"><span class="pl-pds">"</span>Header<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>Value<span class="pl-pds">"</span></span>));</pre></div>
 
 <h4>
-<a id="step-5-request-matchers" class="anchor" href="#step-5-request-matchers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Step 5: Request Matchers</h4>
+<a id="step-3-request-matchers" class="anchor" href="#step-3-request-matchers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Step 3: Request Matchers</h4>
 
 <p>You can either use some of the predefined matchers from <code>RequestMatchers</code> util class, or create your own. remember to extend from <code>RequestMatcher</code></p>
 
 <h4>
-<a id="step-6-specify-api-endpoint" class="anchor" href="#step-6-specify-api-endpoint" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Step 6: Specify API Endpoint</h4>
+<a id="step-4-specify-api-endpoint" class="anchor" href="#step-4-specify-api-endpoint" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Step 4: Specify API Endpoint</h4>
 
 <p>The most important step, in order for your app to communicate with the testServer, you have to specify it as an endpoint for all your API calls. For that, you can use the <code>RESTMockServer.getUrl()</code>. If you use Retrofit, it is as easy as:</p>
 
