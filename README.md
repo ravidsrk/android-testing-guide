@@ -389,10 +389,10 @@ If you wish to have a greater control over the response, you can pass the `MockR
 RESTMockServer.whenGET(pathContains("users/defunkt")).thenReturn(new MockResponse().setBody("").setResponseCode(401).addHeader("Header","Value"));
 ```
 
-#### Step 5: Request Matchers
+#### Step 3: Request Matchers
 You can either use some of the predefined matchers from `RequestMatchers` util class, or create your own. remember to extend from `RequestMatcher`
 
-#### Step 6: Specify API Endpoint
+#### Step 4: Specify API Endpoint
 The most important step, in order for your app to communicate with the testServer, you have to specify it as an endpoint for all your API calls. For that, you can use the ` RESTMockServer.getUrl()`. If you use Retrofit, it is as easy as:
 
 ```java
