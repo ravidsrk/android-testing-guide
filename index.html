@@ -53,11 +53,15 @@
 <ul>
 <li><a href="#junit-basics">JUnit basics</a></li>
 <li><a href="#beyond-junit-basics">Beyond JUnit basics</a></li>
-<li><a href="#">Local test setup and execution</a></li>
-<li><a href="#">Adding local tests and failure</a></li>
-<li><a href="#">Assertions</a></li>
+<li><a href="#assertions">Assertions</a></li>
 <li><a href="#hamcrest">Hamcrest</a></li>
+<li><a href="#assertj">Assertj</a></li>
 <li><a href="#rules">Rules</a></li>
+<li><a href="#mockito">Mockito</a></li>
+<li><a href="#powermock">PowerMock</a></li>
+<li><a href="#easymock">EasyMock</a></li>
+<li><a href="#wiremock">WireMock</a></li>
+<li><a href="#restmock">RESTMock</a></li>
 </ul>
 </li>
 <li>
@@ -70,12 +74,31 @@
 <ul>
 <li><a href="#rule-to-test-android-activity">Rule to test Android Activity</a></li>
 <li><a href="#rule-to-test-android-service">Rule to test Android Service</a></li>
+<li><a href="#rule-to-test-android-intents">Rule to test Android Intents</a></li>
 </ul>
 </li>
 <li><a href="#android-instrumented-tests">Android instrumented tests</a></li>
 <li><a href="#test-filtering">Test filtering</a></li>
-<li><a href="#espresso">Espresso</a></li>
-<li><a href="#robolectric">Robolectric</a></li>
+<li>
+<a href="#espresso">Espresso</a>
+
+<ul>
+<li><a href="#basics">Basics</a></li>
+<li><a href="#testing-recyclerview">Testing RecyclerView</a></li>
+<li><a href="#testing-toast">Testing Toast</a></li>
+<li><a href="#testing-intents">Testing Intents</a></li>
+<li><a href="#idlingresource">Testing Synchronization with background jobs</a></li>
+</ul>
+</li>
+<li>
+<a href="#robolectric">Robolectric</a>
+
+<ul>
+<li><a href="#testing-activities">Testing Activities</a></li>
+<li><a href="#testing-fragments">Testing Fragments</a></li>
+<li><a href="#testing-sqlite">Testing sqlite</a></li>
+</ul>
+</li>
 <li><a href="#robotium">Robotium</a></li>
 <li><a href="#ui-testing-and-ui-automator">UI testing and UI Automator</a></li>
 <li><a href="#monkeyrunner">MonkeyRunner</a></li>
@@ -215,13 +238,82 @@
 }</pre></div>
 
 <h3>
-<a id="local-test-setup-and-execution" class="anchor" href="#local-test-setup-and-execution" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Local test setup and execution</h3>
-
-<h3>
-<a id="adding-local-tests-and-failure" class="anchor" href="#adding-local-tests-and-failure" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Adding local tests and failure</h3>
-
-<h3>
 <a id="assertions" class="anchor" href="#assertions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Assertions</h3>
+
+<p>JUnit provides overloaded assertion methods for all primitive types and Objects and arrays (of primitives or Objects). The parameter order is expected value followed by actual value. Optionally the first parameter can be a String message that is output on failure. There is a slightly different assertion, assertThat that has parameters of the optional failure message, the actual value, and a Matcher object. Note that expected and actual are reversed compared to the other assert methods.</p>
+
+<p><a href="https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/AssertTests.java.java">AssertTests.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">AssertTests</span> {
+  <span class="pl-k">@Test</span>
+  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testAssertArrayEquals</span>() {
+    <span class="pl-k">byte</span>[] expected <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>trial<span class="pl-pds">"</span></span><span class="pl-k">.</span>getBytes();
+    <span class="pl-k">byte</span>[] actual <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>trial<span class="pl-pds">"</span></span><span class="pl-k">.</span>getBytes();
+    assertArrayEquals(<span class="pl-s"><span class="pl-pds">"</span>failure - byte arrays not same<span class="pl-pds">"</span></span>, expected, actual);
+  }
+
+  <span class="pl-k">@Test</span>
+  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testAssertEquals</span>() {
+    assertEquals(<span class="pl-s"><span class="pl-pds">"</span>failure - strings are not equal<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>);
+  }
+
+  <span class="pl-k">@Test</span>
+  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testAssertFalse</span>() {
+    assertFalse(<span class="pl-s"><span class="pl-pds">"</span>failure - should be false<span class="pl-pds">"</span></span>, <span class="pl-c1">false</span>);
+  }
+
+  <span class="pl-k">@Test</span>
+  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testAssertNotNull</span>() {
+    assertNotNull(<span class="pl-s"><span class="pl-pds">"</span>should not be null<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-smi">Object</span>());
+  }
+
+  <span class="pl-k">@Test</span>
+  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testAssertNotSame</span>() {
+    assertNotSame(<span class="pl-s"><span class="pl-pds">"</span>should not be same Object<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-smi">Object</span>(), <span class="pl-k">new</span> <span class="pl-smi">Object</span>());
+  }
+
+  <span class="pl-k">@Test</span>
+  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testAssertNull</span>() {
+    assertNull(<span class="pl-s"><span class="pl-pds">"</span>should be null<span class="pl-pds">"</span></span>, <span class="pl-c1">null</span>);
+  }
+
+  <span class="pl-k">@Test</span>
+  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testAssertSame</span>() {
+    <span class="pl-smi">Integer</span> aNumber <span class="pl-k">=</span> <span class="pl-smi">Integer</span><span class="pl-k">.</span>valueOf(<span class="pl-c1">768</span>);
+    assertSame(<span class="pl-s"><span class="pl-pds">"</span>should be same<span class="pl-pds">"</span></span>, aNumber, aNumber);
+  }
+
+  <span class="pl-c">// JUnit Matchers assertThat</span>
+  <span class="pl-k">@Test</span>
+  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testAssertThatBothContainsString</span>() {
+    assertThat(<span class="pl-s"><span class="pl-pds">"</span>albumen<span class="pl-pds">"</span></span>, both(containsString(<span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>))<span class="pl-k">.</span>and(containsString(<span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>)));
+  }
+
+  <span class="pl-k">@Test</span>
+  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testAssertThatHasItems</span>() {
+    assertThat(<span class="pl-smi">Arrays</span><span class="pl-k">.</span>asList(<span class="pl-s"><span class="pl-pds">"</span>one<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>two<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>three<span class="pl-pds">"</span></span>), hasItems(<span class="pl-s"><span class="pl-pds">"</span>one<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>three<span class="pl-pds">"</span></span>));
+  }
+
+  <span class="pl-k">@Test</span>
+  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testAssertThatEveryItemContainsString</span>() {
+    assertThat(<span class="pl-smi">Arrays</span><span class="pl-k">.</span>asList(<span class="pl-k">new</span> <span class="pl-smi">String</span>[] { <span class="pl-s"><span class="pl-pds">"</span>fun<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>ban<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>net<span class="pl-pds">"</span></span> }), everyItem(containsString(<span class="pl-s"><span class="pl-pds">"</span>n<span class="pl-pds">"</span></span>)));
+  }
+
+  <span class="pl-c">// Core Hamcrest Matchers with assertThat</span>
+  <span class="pl-k">@Test</span>
+  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testAssertThatHamcrestCoreMatchers</span>() {
+    assertThat(<span class="pl-s"><span class="pl-pds">"</span>good<span class="pl-pds">"</span></span>, allOf(equalTo(<span class="pl-s"><span class="pl-pds">"</span>good<span class="pl-pds">"</span></span>), startsWith(<span class="pl-s"><span class="pl-pds">"</span>good<span class="pl-pds">"</span></span>)));
+    assertThat(<span class="pl-s"><span class="pl-pds">"</span>good<span class="pl-pds">"</span></span>, not(allOf(equalTo(<span class="pl-s"><span class="pl-pds">"</span>bad<span class="pl-pds">"</span></span>), equalTo(<span class="pl-s"><span class="pl-pds">"</span>good<span class="pl-pds">"</span></span>))));
+    assertThat(<span class="pl-s"><span class="pl-pds">"</span>good<span class="pl-pds">"</span></span>, anyOf(equalTo(<span class="pl-s"><span class="pl-pds">"</span>bad<span class="pl-pds">"</span></span>), equalTo(<span class="pl-s"><span class="pl-pds">"</span>good<span class="pl-pds">"</span></span>)));
+    assertThat(<span class="pl-c1">7</span>, not(<span class="pl-smi">CombinableMatcher</span><span class="pl-k">.</span><span class="pl-k">&lt;</span><span class="pl-smi">Integer</span><span class="pl-k">&gt;</span> either(equalTo(<span class="pl-c1">3</span>))<span class="pl-k">.</span>or(equalTo(<span class="pl-c1">4</span>))));
+    assertThat(<span class="pl-k">new</span> <span class="pl-smi">Object</span>(), not(sameInstance(<span class="pl-k">new</span> <span class="pl-smi">Object</span>())));
+  }
+
+  <span class="pl-k">@Test</span>
+  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">testAssertTrue</span>() {
+    assertTrue(<span class="pl-s"><span class="pl-pds">"</span>failure - should be true<span class="pl-pds">"</span></span>, <span class="pl-c1">true</span>);
+  }
+}</pre></div>
 
 <h3>
 <a id="hamcrest" class="anchor" href="#hamcrest" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hamcrest</h3>
@@ -304,6 +396,121 @@
         assertEquals(name<span class="pl-k">.</span>getMethodName() <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span> subtracting incorrectly<span class="pl-pds">"</span></span>, <span class="pl-c1">5</span>, total);
     }
 }</pre></div>
+
+<h2>
+<a id="restmock" class="anchor" href="#restmock" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>RESTMock</h2>
+
+<p>RESTMock is a library working on top of Square's <a href="https://github.com/square/okhttp/tree/master/mockwebserver">okhttp/MockWebServer</a>. It allows you to specify <a href="https://github.com/hamcrest/JavaHamcrest">Hamcrest</a> matchers to match HTTP requests and specify what response to return. It is as easy as:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">RESTMockServer</span><span class="pl-k">.</span>whenGET(pathContains(<span class="pl-s"><span class="pl-pds">"</span>users/defunkt<span class="pl-pds">"</span></span>))
+            .thenReturnFile(<span class="pl-c1">200</span>, <span class="pl-s"><span class="pl-pds">"</span>users/defunkt.json<span class="pl-pds">"</span></span>);</pre></div>
+
+<h4>
+<a id="step-1-start-the-server" class="anchor" href="#step-1-start-the-server" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Step 1: Start the server</h4>
+
+<p>It's good to start server before the tested application starts, there are few methods:</p>
+
+<h5>
+<a id="a-restmocktestrunner" class="anchor" href="#a-restmocktestrunner" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>a) RESTMockTestRunner</h5>
+
+<p>To make it simple you can just use the predefined <code>RESTMockTestRunner</code> in your UI tests. It extends <code>AndroidJUnitRunner</code>:</p>
+
+<div class="highlight highlight-source-groovy"><pre>defaultConfig {
+        <span class="pl-k">..</span>.
+        testInstrumentationRunner <span class="pl-s"><span class="pl-pds">'</span>io.appflate.restmock.android.RESTMockTestRunner<span class="pl-pds">'</span></span>
+    }</pre></div>
+
+<h5>
+<a id="b-restmockserverstarter" class="anchor" href="#b-restmockserverstarter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>b) RESTMockServerStarter</h5>
+
+<p>If you have your custom test runner and you can't extend <code>RESTMockTestRunner</code>, you can always just call the <code>RESTMockServerStarter</code>. Actually <code>RESTMockTestRunner</code> is doing exactly the same thing:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyAppTestRunner</span> <span class="pl-k">extends</span> <span class="pl-e">AndroidJUnitRunner</span> {
+    <span class="pl-c1">...</span>
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onCreate</span>(<span class="pl-smi">Bundle</span> <span class="pl-v">arguments</span>) {
+        <span class="pl-v">super</span><span class="pl-k">.</span>onCreate(arguments);
+        <span class="pl-smi">RESTMockServerStarter</span><span class="pl-k">.</span>startSync(<span class="pl-k">new</span> <span class="pl-smi">AndroidAssetsFileParser</span>(getContext()),<span class="pl-k">new</span> <span class="pl-smi">AndroidLogger</span>());
+        <span class="pl-c1">...</span>
+    }
+    <span class="pl-c1">...</span>
+}
+</pre></div>
+
+<h4>
+<a id="step-2-specify-mocks" class="anchor" href="#step-2-specify-mocks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Step 2: Specify Mocks</h4>
+
+<h5>
+<a id="a-files" class="anchor" href="#a-files" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>a) Files</h5>
+
+<p>By default, the <code>RESTMockTestRunner</code> uses <code>AndroidAssetsFileParser</code> as a mocks file parser, which reads the files from the assets folder. To make them visible for the RESTMock you have to put them in the correct folder in your project, for example:</p>
+
+<pre><code>.../src/androidTest/assets/users/defunkt.json
+</code></pre>
+
+<p>This can be accessed like this:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">RESTMockServer</span><span class="pl-k">.</span>whenGET(pathContains(<span class="pl-s"><span class="pl-pds">"</span>users/defunkt<span class="pl-pds">"</span></span>))
+            .thenReturnFile(<span class="pl-c1">200</span>, <span class="pl-s"><span class="pl-pds">"</span>users/defunkt.json<span class="pl-pds">"</span></span>);</pre></div>
+
+<h5>
+<a id="b-strings" class="anchor" href="#b-strings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>b) Strings</h5>
+
+<p>If the response You wish to return is simple, you can just specify a string:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">RESTMockServer</span><span class="pl-k">.</span>whenGET(pathContains(<span class="pl-s"><span class="pl-pds">"</span>users/defunkt<span class="pl-pds">"</span></span>))
+            .thenReturnString(<span class="pl-c1">200</span>, <span class="pl-s"><span class="pl-pds">"</span>{}<span class="pl-pds">"</span></span>);</pre></div>
+
+<h5>
+<a id="c-mockresponse" class="anchor" href="#c-mockresponse" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>c) MockResponse</h5>
+
+<p>If you wish to have a greater control over the response, you can pass the <code>MockResponse</code></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">RESTMockServer</span><span class="pl-k">.</span>whenGET(pathContains(<span class="pl-s"><span class="pl-pds">"</span>users/defunkt<span class="pl-pds">"</span></span>))<span class="pl-k">.</span>thenReturn(<span class="pl-k">new</span> <span class="pl-smi">MockResponse</span>()<span class="pl-k">.</span>setBody(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>)<span class="pl-k">.</span>setResponseCode(<span class="pl-c1">401</span>)<span class="pl-k">.</span>addHeader(<span class="pl-s"><span class="pl-pds">"</span>Header<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>Value<span class="pl-pds">"</span></span>));</pre></div>
+
+<h4>
+<a id="step-5-request-matchers" class="anchor" href="#step-5-request-matchers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Step 5: Request Matchers</h4>
+
+<p>You can either use some of the predefined matchers from <code>RequestMatchers</code> util class, or create your own. remember to extend from <code>RequestMatcher</code></p>
+
+<h4>
+<a id="step-6-specify-api-endpoint" class="anchor" href="#step-6-specify-api-endpoint" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Step 6: Specify API Endpoint</h4>
+
+<p>The most important step, in order for your app to communicate with the testServer, you have to specify it as an endpoint for all your API calls. For that, you can use the <code>RESTMockServer.getUrl()</code>. If you use Retrofit, it is as easy as:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">RestAdapter</span> adapter <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">RestAdapter</span>.<span class="pl-smi">Builder</span>()
+                .baseUrl(<span class="pl-smi">RESTMockServer</span><span class="pl-k">.</span>getUrl())
+                <span class="pl-c1">...</span>
+                .build();</pre></div>
+
+<h4>
+<a id="request-verification" class="anchor" href="#request-verification" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Request verification</h4>
+
+<p>It is possible to verify which requests were called and how many times thanks to <code>RequestsVerifier</code>. All you have to do is call one of these:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-c">//cheks if the GET request was invoked exactly 2 times</span>
+<span class="pl-smi">RequestsVerifier</span><span class="pl-k">.</span>verifyGET(pathEndsWith(<span class="pl-s"><span class="pl-pds">"</span>users<span class="pl-pds">"</span></span>))<span class="pl-k">.</span>exactly(<span class="pl-c1">2</span>);
+
+<span class="pl-c">//cheks if the GET request was invoked at least 3 times</span>
+<span class="pl-smi">RequestsVerifier</span><span class="pl-k">.</span>verifyGET(pathEndsWith(<span class="pl-s"><span class="pl-pds">"</span>users<span class="pl-pds">"</span></span>))<span class="pl-k">.</span>atLeast(<span class="pl-c1">3</span>);
+
+<span class="pl-c">//cheks if the GET request was invoked exactly 1 time</span>
+<span class="pl-smi">RequestsVerifier</span><span class="pl-k">.</span>verifyGET(pathEndsWith(<span class="pl-s"><span class="pl-pds">"</span>users<span class="pl-pds">"</span></span>))<span class="pl-k">.</span>invoked();
+
+<span class="pl-c">//cheks if the GET request was never invoked</span>
+<span class="pl-smi">RequestsVerifier</span><span class="pl-k">.</span>verifyGET(pathEndsWith(<span class="pl-s"><span class="pl-pds">"</span>users<span class="pl-pds">"</span></span>))<span class="pl-k">.</span>never();</pre></div>
+
+<h4>
+<a id="logging" class="anchor" href="#logging" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Logging</h4>
+
+<p>RESTMock supports logging events. You just have to provide the RESTMock with the implementation of <code>RESTMockLogger</code>. For Android there is an <code>AndroidLogger</code> implemented already. All you have to do is use the <code>RESTMockTestRunner</code> or call</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">RESTMockServerStarter</span><span class="pl-k">.</span>startSync(<span class="pl-k">new</span> <span class="pl-smi">AndroidAssetsFileParser</span>(getContext()),<span class="pl-k">new</span> <span class="pl-smi">AndroidLogger</span>());</pre></div>
+
+<p>or</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">RESTMockServer</span><span class="pl-k">.</span>enableLogging(<span class="pl-smi">RESTMockLogger</span>)
+<span class="pl-smi">RESTMockServer</span><span class="pl-k">.</span>disableLogging()</pre></div>
 
 <h2>
 <a id="android" class="anchor" href="#android" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Android</h2>
@@ -882,6 +1089,8 @@ emulator.press(<span class="pl-s"><span class="pl-pds">'</span>KEYCODE_HOME<span
 <a id="references" class="anchor" href="#references" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>References</h2>
 
 <ul>
+<li><a href="https://github.com/junit-team/junit4/wiki/assertions">https://github.com/junit-team/junit4/wiki/assertions</a></li>
+<li><a href="https://github.com/googlesamples/android-testing">https://github.com/googlesamples/android-testing</a></li>
 <li><a href="https://riggaroo.co.za/introduction-automated-android-testing/">https://riggaroo.co.za/introduction-automated-android-testing/</a></li>
 <li><a href="http://robolectric.org">http://robolectric.org</a></li>
 <li><a href="https://github.com/robolectric/robolectric">https://github.com/robolectric/robolectric</a></li>
