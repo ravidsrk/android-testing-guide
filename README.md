@@ -1,8 +1,7 @@
-# android-testing-guide [![Join the chat at https://gitter.im/android-testing-guide/Lobby](https://badges.gitter.im/android-testing-guide/Lobby.svg)](https://gitter.im/android-testing-guide/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# Android Testing Guide [![Join the chat at https://gitter.im/android-testing-guide/Lobby](https://badges.gitter.im/android-testing-guide/Lobby.svg)](https://gitter.im/android-testing-guide/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### Show some :heart:
-[![GitHub stars](https://img.shields.io/github/stars/ravidsrk/android-testing-guide.svg?style=social&label=Star)](https://github.com/ravidsrk/android-testing-guide) [![GitHub forks](https://img.shields.io/github/forks/ravidsrk/android-testing-guide.svg?style=social&label=Fork)](https://github.com/ravidsrk/android-testing-guide/fork) [![GitHub watchers](https://img.shields.io/github/watchers/ravidsrk/android-testing-guide.svg?style=social&label=Watch)](https://github.com/ravidsrk/android-testing-guide) [![GitHub followers](https://img.shields.io/github/followers/ravidsrk.svg?style=social&label=Follow)](https://github.com/ravidsrk/android-testing-guide)
-[![Twitter Follow](https://img.shields.io/twitter/follow/ravidsrk.svg?style=social)](https://twitter.com/ravidsrk)
+[![GitHub stars](https://img.shields.io/github/stars/ravidsrk/android-testing-guide.svg?style=social&label=Star)](https://github.com/ravidsrk/android-testing-guide) [![GitHub forks](https://img.shields.io/github/forks/ravidsrk/android-testing-guide.svg?style=social&label=Fork)](https://github.com/ravidsrk/android-testing-guide/fork) [![GitHub watchers](https://img.shields.io/github/watchers/ravidsrk/android-testing-guide.svg?style=social&label=Watch)](https://github.com/ravidsrk/android-testing-guide) [![GitHub followers](https://img.shields.io/github/followers/ravidsrk.svg?style=social&label=Follow)](https://github.com/ravidsrk/android-testing-guide) [![Twitter Follow](https://img.shields.io/twitter/follow/ravidsrk.svg?style=social)](https://twitter.com/ravidsrk)
 
 > Complete reference for Android Testing with examples.
 
@@ -390,10 +389,10 @@ If you wish to have a greater control over the response, you can pass the `MockR
 RESTMockServer.whenGET(pathContains("users/defunkt")).thenReturn(new MockResponse().setBody("").setResponseCode(401).addHeader("Header","Value"));
 ```
 
-#### Step 5: Request Matchers
+#### Step 3: Request Matchers
 You can either use some of the predefined matchers from `RequestMatchers` util class, or create your own. remember to extend from `RequestMatcher`
 
-#### Step 6: Specify API Endpoint
+#### Step 4: Specify API Endpoint
 The most important step, in order for your app to communicate with the testServer, you have to specify it as an endpoint for all your API calls. For that, you can use the ` RESTMockServer.getUrl()`. If you use Retrofit, it is as easy as:
 
 ```java
