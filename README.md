@@ -14,15 +14,30 @@
     - [Adding local tests and failure](#)
     - [Assertions](#)
     - [Hamcrest](#hamcrest)
+    - [Assertj](#assertj)
     - [Rules](#rules)
+    - [Mockito](#mockito)
+    - [PowerMock](#powermock)
+    - [EasyMock](#easymock)
+    - [WireMock](#wiremock)
+    - [RESTMock](#restmock)
 - [Android](#android)
     - [Android test rules](#android-test-rules)
         - [Rule to test Android Activity](#rule-to-test-android-activity)
         - [Rule to test Android Service](#rule-to-test-android-service)
+        - [Rule to test Android Intents](#rule-to-test-android-intents)
     - [Android instrumented tests](#android-instrumented-tests)
     - [Test filtering](#test-filtering)
     - [Espresso](#espresso)
+        - [Basics](#basics)
+        - [Testing RecyclerView](#testing-recyclerview)
+        - [Testing Toast](#testing-toast)
+        - [Testing Intents](#testing-intents)
+        - [Testing Synchronization with background jobs](#idlingresource)
     - [Robolectric](#robolectric)
+        - [Testing Activities](#testing-activities)
+        - [Testing Fragments](#testing-fragments)
+        - [Testing sqlite](#testing-sqlite)
     - [Robotium](#robotium)
     - [UI testing and UI Automator](#ui-testing-and-ui-automator)
     - [MonkeyRunner](#monkeyrunner)
@@ -228,6 +243,114 @@ public class CalculatorWithTestName {
         assertEquals(name.getMethodName() + " subtracting incorrectly", 5, total);
     }
 }
+```
+
+## RESTMock
+
+RESTMock is a library working on top of Square's [okhttp/MockWebServer](https://github.com/square/okhttp/tree/master/mockwebserver). It allows you to specify [Hamcrest](https://github.com/hamcrest/JavaHamcrest) matchers to match HTTP requests and specify what response to return. It is as easy as:
+
+```java
+RESTMockServer.whenGET(pathContains("users/defunkt"))
+            .thenReturnFile(200, "users/defunkt.json");
+```
+
+#### Step 1: Start the server
+It's good to start server before the tested application starts, there are few methods:
+
+##### a) RESTMockTestRunner
+To make it simple you can just use the predefined `RESTMockTestRunner` in your UI tests. It extends `AndroidJUnitRunner`:
+
+```groovy
+defaultConfig {
+        ...
+        testInstrumentationRunner 'io.appflate.restmock.android.RESTMockTestRunner'
+    }
+```
+##### b) RESTMockServerStarter
+If you have your custom test runner and you can't extend `RESTMockTestRunner`, you can always just call the `RESTMockServerStarter`. Actually `RESTMockTestRunner` is doing exactly the same thing:
+
+```java
+public class MyAppTestRunner extends AndroidJUnitRunner {
+    ...
+    @Override
+    public void onCreate(Bundle arguments) {
+        super.onCreate(arguments);
+        RESTMockServerStarter.startSync(new AndroidAssetsFileParser(getContext()),new AndroidLogger());
+        ...
+    }
+    ...
+}
+
+```
+
+
+####Step 2: Specify Mocks
+
+##### a) Files
+By default, the `RESTMockTestRunner` uses `AndroidAssetsFileParser` as a mocks file parser, which reads the files from the assets folder. To make them visible for the RESTMock you have to put them in the correct folder in your project, for example:
+
+    .../src/androidTest/assets/users/defunkt.json
+This can be accessed like this:
+
+```java
+RESTMockServer.whenGET(pathContains("users/defunkt"))
+            .thenReturnFile(200, "users/defunkt.json");
+```
+
+##### b) Strings
+If the response You wish to return is simple, you can just specify a string:
+
+```java
+RESTMockServer.whenGET(pathContains("users/defunkt"))
+            .thenReturnString(200, "{}");
+```
+##### c) MockResponse
+If you wish to have a greater control over the response, you can pass the `MockResponse`
+```java
+RESTMockServer.whenGET(pathContains("users/defunkt")).thenReturn(new MockResponse().setBody("").setResponseCode(401).addHeader("Header","Value"));
+```
+
+#### Step 5: Request Matchers
+You can either use some of the predefined matchers from `RequestMatchers` util class, or create your own. remember to extend from `RequestMatcher`
+
+#### Step 6: Specify API Endpoint
+The most important step, in order for your app to communicate with the testServer, you have to specify it as an endpoint for all your API calls. For that, you can use the ` RESTMockServer.getUrl()`. If you use Retrofit, it is as easy as:
+
+```java
+RestAdapter adapter = new RestAdapter.Builder()
+                .baseUrl(RESTMockServer.getUrl())
+                ...
+                .build();
+```
+#### Request verification
+It is possible to verify which requests were called and how many times thanks to `RequestsVerifier`. All you have to do is call one of these:
+
+```java
+//cheks if the GET request was invoked exactly 2 times
+RequestsVerifier.verifyGET(pathEndsWith("users")).exactly(2);
+
+//cheks if the GET request was invoked at least 3 times
+RequestsVerifier.verifyGET(pathEndsWith("users")).atLeast(3);
+
+//cheks if the GET request was invoked exactly 1 time
+RequestsVerifier.verifyGET(pathEndsWith("users")).invoked();
+
+//cheks if the GET request was never invoked
+RequestsVerifier.verifyGET(pathEndsWith("users")).never();
+```
+
+#### Logging
+RESTMock supports logging events. You just have to provide the RESTMock with the implementation of `RESTMockLogger`. For Android there is an `AndroidLogger` implemented already. All you have to do is use the `RESTMockTestRunner` or call
+
+```java
+RESTMockServerStarter.startSync(new AndroidAssetsFileParser(getContext()),new AndroidLogger());
+```
+
+or
+
+```java
+RESTMockServer.enableLogging(RESTMockLogger)
+RESTMockServer.disableLogging()
 ```
 
 ## Android
@@ -810,6 +933,7 @@ emulator.press('KEYCODE_HOME','DOWN_AND_UP')
 ```
 
 ## References
+* <https://github.com/googlesamples/android-testing>
 * <https://riggaroo.co.za/introduction-automated-android-testing/>
 * <http://robolectric.org>
 * <https://github.com/robolectric/robolectric>
