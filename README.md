@@ -15,8 +15,6 @@
 - [Local Tests](#local-tests)
     - [JUnit basics](#junit-basics)
     - [Beyond JUnit basics](#beyond-junit-basics)
-    - [Local test setup and execution](#)
-    - [Adding local tests and failure](#)
     - [Assertions](#assertions)
     - [Hamcrest](#hamcrest)
     - [Assertj](#assertj)
@@ -163,9 +161,11 @@ public void testDivWithZeroDivisor() {
     assertEquals("Calculator is not handling division by zero correctly", 0.0, total, 0.0);
 }
 ```
-### Local test setup and execution
-### Adding local tests and failure
+
 ### Assertions
+
+JUnit provides overloaded assertion methods for all primitive types and Objects and arrays (of primitives or Objects). The parameter order is expected value followed by actual value. Optionally the first parameter can be a String message that is output on failure. There is a slightly different assertion, assertThat that has parameters of the optional failure message, the actual value, and a Matcher object. Note that expected and actual are reversed compared to the other assert methods.
+
 [AssertTests.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/AssertTests.java.java)
 
 ```java
@@ -239,6 +239,7 @@ public class AssertTests {
     assertTrue("failure - should be true", true);
   }
 }
+```
 
 ### Hamcrest
 
@@ -1012,6 +1013,7 @@ emulator.press('KEYCODE_HOME','DOWN_AND_UP')
 ```
 
 ## References
+* <https://github.com/junit-team/junit4/wiki/assertions>
 * <https://github.com/googlesamples/android-testing>
 * <https://riggaroo.co.za/introduction-automated-android-testing/>
 * <http://robolectric.org>
