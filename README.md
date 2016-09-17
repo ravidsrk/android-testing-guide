@@ -2,7 +2,6 @@
 
 ### Show some :heart:
 [![GitHub stars](https://img.shields.io/github/stars/ravidsrk/android-testing-guide.svg?style=social&label=Star)](https://github.com/ravidsrk/android-testing-guide) [![GitHub forks](https://img.shields.io/github/forks/ravidsrk/android-testing-guide.svg?style=social&label=Fork)](https://github.com/ravidsrk/android-testing-guide/fork) [![GitHub watchers](https://img.shields.io/github/watchers/ravidsrk/android-testing-guide.svg?style=social&label=Watch)](https://github.com/ravidsrk/android-testing-guide) [![GitHub followers](https://img.shields.io/github/followers/ravidsrk.svg?style=social&label=Follow)](https://github.com/ravidsrk/android-testing-guide) 
-
 [![Twitter Follow](https://img.shields.io/twitter/follow/ravidsrk.svg?style=social)](https://twitter.com/ravidsrk)
 
 > Complete reference for Android Testing with examples.
