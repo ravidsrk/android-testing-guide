@@ -1,5 +1,8 @@
 package in.ravidsrk.sample;
 
+import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.ActivityTestRule;
+
 import com.robotium.solo.Solo;
 
 import org.junit.Rule;
@@ -11,10 +14,12 @@ public class MainActivityRobotiumTest {
     private Solo solo;
 
     @Rule
-    public MainActivityRobotiumTestRule<MainActivity> mActivityRule = new MainActivityRobotiumTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> activityTestRule =
+            new ActivityTestRule<>(MainActivity.class);
 
     public void setUp() {
-        solo = new Solo(mActivityRule.getInstrumentation(), mActivityRule.getActivity());
+        solo = new Solo(InstrumentationRegistry.getInstrumentation(),
+                activityTestRule.getActivity());
     }
 
     public void tearDown() {

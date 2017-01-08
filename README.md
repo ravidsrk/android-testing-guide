@@ -673,10 +673,12 @@ public class MainActivityRobotiumTest {
     private Solo solo;
 
     @Rule
-    public MainActivityRobotiumTestRule<MainActivity> mActivityRule = new MainActivityRobotiumTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> activityTestRule =
+            new ActivityTestRule<>(MainActivity.class);
 
     public void setUp() {
-        solo = new Solo(mActivityRule.getInstrumentation(), mActivityRule.getActivity());
+        solo = new Solo(InstrumentationRegistry.getInstrumentation(),
+                activityTestRule.getActivity());
     }
 
     public void tearDown() {
@@ -695,8 +697,6 @@ public class MainActivityRobotiumTest {
     }
 }
 ```
-
-[MainActivityRobotiumTestRule.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/androidTest/java/in/ravidsrk/sample/MainActivityRobotiumTestRule.java)
 
 ### UI testing and UI Automator
 
