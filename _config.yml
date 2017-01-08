@@ -1,0 +1,8 @@
+title: Android Testing Guide
+description: "[Examples] Complete reference for Android Testing with examples."
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
