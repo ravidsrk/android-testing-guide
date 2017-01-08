@@ -98,6 +98,7 @@ public class Calculator {
 ```
 
 [CalculatorTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/CalculatorTest.java)
+
 ```java
 public class CalculatorTest {
 
@@ -638,7 +639,6 @@ public void testEspressoSimplified() {
 }
 
 ```
-
 ### Robolectric
 
 [MainActivityRoboelectricTest.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/MainActivityRoboelectricTest.java)
