@@ -166,7 +166,7 @@ public void testDivWithZeroDivisor() {
 
 JUnit provides overloaded assertion methods for all primitive types and Objects and arrays (of primitives or Objects). The parameter order is expected value followed by actual value. Optionally the first parameter can be a String message that is output on failure. There is a slightly different assertion, assertThat that has parameters of the optional failure message, the actual value, and a Matcher object. Note that expected and actual are reversed compared to the other assert methods.
 
-[AssertTests.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/AssertTests.java.java)
+[AssertTests.java](https://github.com/ravidsrk/android-testing-guide/blob/master/SampleApp/app/src/test/java/in/ravidsrk/sample/AssertTests.java)
 
 ```java
 public class AssertTests {
