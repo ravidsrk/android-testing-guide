@@ -364,7 +364,7 @@ public class MyAppTestRunner extends AndroidJUnitRunner {
 ```
 
 
-####Step 2: Specify Mocks
+#### Step 2: Specify Mocks
 
 ##### a) Files
 By default, the `RESTMockTestRunner` uses `AndroidAssetsFileParser` as a mocks file parser, which reads the files from the assets folder. To make them visible for the RESTMock you have to put them in the correct folder in your project, for example:
