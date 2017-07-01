@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickMe(View view) {
-        editText.setText("you clicked me!");
+        editText.setText(R.string.you_clicked_me);
     }
 
     public void buttonClicked (View view){

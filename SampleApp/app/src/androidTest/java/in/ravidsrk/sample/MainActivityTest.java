@@ -42,7 +42,7 @@ import static org.mockito.Mockito.when;
 public class MainActivityTest {
 
     @Rule
-    public MainActivityTestRule<MainActivity> mainActivityActivityTestRule = new MainActivityTestRule<MainActivity>(MainActivity.class);
+    public MainActivityTestRule<MainActivity> mainActivityActivityTestRule = new MainActivityTestRule<>(MainActivity.class);
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
