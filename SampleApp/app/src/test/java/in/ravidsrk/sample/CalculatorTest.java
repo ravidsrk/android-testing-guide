@@ -58,7 +58,6 @@ public class CalculatorTest {
         assertEquals("Calculator is not dividing correctly", 3.0, total, 0.0);
     }
 
-    @Ignore
     @Test(expected = java.lang.ArithmeticException.class)
     public void testDivWithZeroDivisor() {
         calculator = new Calculator();

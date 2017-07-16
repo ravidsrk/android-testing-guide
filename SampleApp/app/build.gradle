@@ -43,8 +43,7 @@ dependencies {
     })
 
     androidTestImplementation "org.mockito:mockito-core:2.8.47"
-    androidTestImplementation "com.google.dexmaker:dexmaker:1.2"
-    androidTestImplementation "com.google.dexmaker:dexmaker-mockito:1.2"
+    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
     androidTestImplementation 'com.android.support:support-annotations:26.0.0-beta2'
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.android.support.test:rules:0.5'
