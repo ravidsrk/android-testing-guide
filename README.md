@@ -1,4 +1,4 @@
-# Android Testing Guide [![Join the chat at https://gitter.im/android-testing-guide/Lobby](https://badges.gitter.im/android-testing-guide/Lobby.svg)](https://gitter.im/android-testing-guide/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# Android Testing Guide [![Backers on Open Collective](https://opencollective.com/android-testing-guide/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/android-testing-guide/sponsors/badge.svg)](#sponsors) [![Join the chat at https://gitter.im/android-testing-guide/Lobby](https://badges.gitter.im/android-testing-guide/Lobby.svg)](https://gitter.im/android-testing-guide/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### Show some :heart:
 [![GitHub stars](https://img.shields.io/github/stars/ravidsrk/android-testing-guide.svg?style=social&label=Star)](https://github.com/ravidsrk/android-testing-guide) [![GitHub forks](https://img.shields.io/github/forks/ravidsrk/android-testing-guide.svg?style=social&label=Fork)](https://github.com/ravidsrk/android-testing-guide/fork) [![GitHub watchers](https://img.shields.io/github/watchers/ravidsrk/android-testing-guide.svg?style=social&label=Watch)](https://github.com/ravidsrk/android-testing-guide) [![GitHub followers](https://img.shields.io/github/followers/ravidsrk.svg?style=social&label=Follow)](https://github.com/ravidsrk/android-testing-guide) 
@@ -808,3 +808,33 @@ emulator.press('KEYCODE_HOME','DOWN_AND_UP')
 * <https://github.com/designatednerd/Wino>
 * <http://chiuki.github.io/advanced-android-espresso/#/>
 * <http://www.vogella.com/tutorials/AndroidTestingEspresso/article.html>
+
+## Contributors
+
+This project exists thanks to all the people who contribute.
+<a href="graphs/contributors"><img src="https://opencollective.com/android-testing-guide/contributors.svg?width=890" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/android-testing-guide#backer)]
+
+<a href="https://opencollective.com/android-testing-guide#backers" target="_blank"><img src="https://opencollective.com/android-testing-guide/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/android-testing-guide#sponsor)]
+
+<a href="https://opencollective.com/android-testing-guide/sponsor/0/website" target="_blank"><img src="https://opencollective.com/android-testing-guide/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/android-testing-guide/sponsor/1/website" target="_blank"><img src="https://opencollective.com/android-testing-guide/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/android-testing-guide/sponsor/2/website" target="_blank"><img src="https://opencollective.com/android-testing-guide/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/android-testing-guide/sponsor/3/website" target="_blank"><img src="https://opencollective.com/android-testing-guide/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/android-testing-guide/sponsor/4/website" target="_blank"><img src="https://opencollective.com/android-testing-guide/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/android-testing-guide/sponsor/5/website" target="_blank"><img src="https://opencollective.com/android-testing-guide/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/android-testing-guide/sponsor/6/website" target="_blank"><img src="https://opencollective.com/android-testing-guide/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/android-testing-guide/sponsor/7/website" target="_blank"><img src="https://opencollective.com/android-testing-guide/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/android-testing-guide/sponsor/8/website" target="_blank"><img src="https://opencollective.com/android-testing-guide/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/android-testing-guide/sponsor/9/website" target="_blank"><img src="https://opencollective.com/android-testing-guide/sponsor/9/avatar.svg"></a>
+
+
