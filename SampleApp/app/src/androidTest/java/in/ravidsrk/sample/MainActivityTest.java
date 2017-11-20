@@ -42,16 +42,13 @@ import static org.mockito.Mockito.when;
 public class MainActivityTest {
 
     @Rule
-    public MainActivityTestRule<MainActivity> mainActivityActivityTestRule = new MainActivityTestRule<>(MainActivity.class);
-
-    @Rule
-    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
+    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void testUI() {
-        Activity activity = mainActivityActivityTestRule.getActivity();
+        Activity activity = activityTestRule.getActivity();
         assertNotNull(activity.findViewById(R.id.text_hello));
-        TextView helloView = (TextView) activity.findViewById(R.id.text_hello);
+        TextView helloView = activity.findViewById(R.id.text_hello);
         assertTrue(helloView.isShown());
         assertEquals("Hello World!", helloView.getText());
         assertEquals(InstrumentationRegistry.getTargetContext().getString(R.string.hello_world), helloView.getText());
@@ -67,9 +64,9 @@ public class MainActivityTest {
     }
 
     @Test
-    @SdkSuppress(minSdkVersion = 30)
+    @SdkSuppress(minSdkVersion = 15)
     public void testMinSdkVersion() {
-        Log.d("Test Filters", "Checking for min sdk >= 30");
+        Log.d("Test Filters", "Checking for min sdk >= 15");
         Activity activity = activityTestRule.getActivity();
         assertNotNull("MainActivity is not available", activity);
     }
@@ -104,7 +101,6 @@ public class MainActivityTest {
     }
 
     @Test
-    @Ignore
     public void testUiDevice() throws RemoteException {
         UiDevice device = UiDevice.getInstance(
                 InstrumentationRegistry.getInstrumentation());
@@ -114,6 +110,7 @@ public class MainActivityTest {
         }
     }
 
+    @Ignore
     @Test
     public void testUiAutomatorAPI() throws UiObjectNotFoundException, InterruptedException {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
@@ -124,7 +121,7 @@ public class MainActivityTest {
 
         Thread.sleep(2000);
 
-        UiSelector buttonSelector = new UiSelector().className("android.widget.Button").text("Click Me").clickable(true);
+        UiSelector buttonSelector = new UiSelector().className("android.widget.Button").text("CLICK ME").clickable(true);
         UiObject buttonWidget = device.findObject(buttonSelector);
         buttonWidget.click();
 

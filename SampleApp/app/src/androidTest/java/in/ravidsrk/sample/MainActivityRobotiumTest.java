@@ -9,7 +9,8 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
+
 
 public class MainActivityRobotiumTest {
     private Solo solo;

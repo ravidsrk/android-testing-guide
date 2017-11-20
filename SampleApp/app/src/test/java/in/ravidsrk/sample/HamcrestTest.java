@@ -5,13 +5,13 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.hamcrest.number.OrderingComparison.lessThan;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Ravindra Kumar on 08/09/16.

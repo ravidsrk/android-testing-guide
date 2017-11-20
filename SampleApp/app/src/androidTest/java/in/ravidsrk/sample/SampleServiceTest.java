@@ -3,7 +3,7 @@ package in.ravidsrk.sample;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.test.InstrumentationRegistry;
-//import android.support.test.rule.ServiceTestRule;
+import android.support.test.rule.ServiceTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Rule;
@@ -18,8 +18,8 @@ import static org.junit.Assert.assertNotNull;
 public class SampleServiceTest {
 
     @Rule
-    //public ServiceTestRule myServiceRule = new ServiceTestRule();
-    public SampleServiceTestRule myServiceRule = new SampleServiceTestRule();
+    public ServiceTestRule myServiceRule = new ServiceTestRule();
+//    public SampleServiceTestRule myServiceRule = new SampleServiceTestRule();
 
     @Test
     public void testService() throws TimeoutException {
