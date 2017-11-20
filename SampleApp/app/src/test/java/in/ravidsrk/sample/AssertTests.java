@@ -64,7 +64,7 @@ public class AssertTests {
 
     @Test
     public void testAssertSame() {
-        Integer aNumber = Integer.valueOf(768);
+        Integer aNumber = 768;
         assertSame("should be same", aNumber, aNumber);
     }
 

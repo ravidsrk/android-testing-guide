@@ -5,6 +5,7 @@ import android.support.test.rule.ActivityTestRule;
 
 import com.robotium.solo.Solo;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -26,6 +27,7 @@ public class MainActivityRobotiumTest {
         solo.finishOpenedActivities();
     }
 
+    @Ignore
     @Test
     public void testPushClickMe() {
         solo.waitForActivity(MainActivity.class);
